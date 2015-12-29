@@ -12,6 +12,8 @@
             <% String action = request.getParameter("action");
                 System.out.println(action);
             %>
+<!-- TODO: sostituire i campi con quelli propri di persona -->
+
             <% if (action.equalsIgnoreCase("edit")) {%>
             User Name : <input type="text" name="uname"
                                value="<c:out value="${user.uname}" />" readonly="readonly"/> (You Can't Change this)<br /> 
