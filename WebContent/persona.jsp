@@ -13,6 +13,7 @@
                 System.out.println(action);
             %>
 <!-- TODO: sostituire i campi con quelli propri di persona -->
+<!-- TODO: sostituire i campi con quelli propri di persona -->
 
             <% if (action.equalsIgnoreCase("edit")) {%>
             User Name : <input type="text" name="uname"
