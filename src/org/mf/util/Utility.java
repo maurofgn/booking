@@ -13,7 +13,7 @@ public class Utility {
 		
 		Integer retValue;
 		try {
-			retValue = Integer.getInteger(i);
+			retValue = Integer.parseInt(i);
 		} catch (Exception e) {
 			retValue = 0;
 		}
