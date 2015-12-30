@@ -1,23 +1,16 @@
-<%--
-% This is the main decorator for all SOMECOMPANY INTRANET pages.
-% It includes standard caching, style sheet, header, footer and copyright notice.
---%>
 <%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator" prefix="decorator"%>
 <%-- <%@ include file="/includes/cache.jsp"%> --%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 
 <head>
-<title><decorator:title default="INTRANET" /></title>
-<decorator:head />
+<title><decorator:title default="booking" /></title>
+<decorator:head/>
 <%@ include file="/includes/style.jsp"%>
 </head>
 
-<body bgcolor="#FFFFFF"
-	background="<%=request.getContextPath()%>/images/bg.gif">
-	<script type="text/javascript">
-		window.status = "Loading: <decorator:title default="INTRANET" />...";
-	</script>
+<%-- <body bgcolor="#FFFFFF"	background="<%=request.getContextPath()%>/images/bg.gif"> --%>
+<body bgcolor="#FFFFFF">
 <%-- 	<%@ include file="/includes/header.jsp"%> --%>
 	<table width="100%" border="0" cellspacing="0" cellpadding="0">
 		<tr>
@@ -26,16 +19,10 @@
 		<tr>
 			<td width="1%" nowrap></td>
 			<td width="16%" valign="top" nowrap>
-			<script type="text/javascript">
-				window.status = "Loading: Navigation...";
-			</script>
-<%-- 				<%@ include file="/includes/navigation.jsp"%> --%>
+ <%-- 				<%@ include file="/includes/navigation.jsp"%> --%>
 			</td>
 			<td width="2%" nowrap></td>
-			<td valign="top"><br> 
-			<script type="text/javascript">
-				window.status = "Loading: Document body...";
-			</script>
+			<td valign="top"><br>
 				<div class="docBody">
 					<decorator:body />
 				</div>
@@ -46,8 +33,5 @@
 	<br>
 <%-- 	<%@ include file="/includes/footer.jsp"%> --%>
 <%-- 	<%@ include file="/includes/copyright.jsp"%> --%>
-	<script type="text/javascript">
-		window.status = "Done";
-	</script>
 </body>
 </html>
