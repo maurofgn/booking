@@ -35,15 +35,16 @@ public class AuthenticationFilter implements Filter {
 		this.context.log("Requested Resource:" + uri + " ContextPath: " + req.getContextPath());
 
 		HttpSession session = req.getSession(false);	//false ==> se non esiste non la crea
-
-		if ((session == null || session.getAttribute("userId") == null) && !(uri.endsWith("html") || uri.endsWith("LoginServlet"))) {
-			this.context.log("Unauthorized access request");
-			res.sendRedirect(req.getContextPath() + "/login.html");
-		} else {
+		
+		if ((session != null && session.getAttribute("userId") != null) || uri.endsWith("html") || uri.endsWith("login.jsp") || uri.endsWith("LoginServlet")) {
 			// pass the request along the filter chain
 			chain.doFilter(request, response);
 		}
-
+		else {
+			this.context.log("Unauthorized access request");
+			res.sendRedirect(req.getContextPath() + "/login.jsp");
+		}
+		
 	}
 
 	public void destroy() {
