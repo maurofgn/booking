@@ -13,10 +13,6 @@
 	String user = (String) session.getAttribute("user");
 	Integer userId = (Integer)session.getAttribute("userId");
 	String nome = (String) session.getAttribute("nome");
-	String cognome = (String) session.getAttribute("cognome");
-	Integer societaId = (Integer) session.getAttribute("societa_id");
-	String societa = (String) session.getAttribute("societa");
-	Integer tessera = (Integer) session.getAttribute("tessera");
 
 	String userName = null;
 	String sessionID = null;
@@ -30,8 +26,11 @@
 		}
 	}
 %>
-<h3>Ciao <%=nome %>, Login corretto. La tua Session ID=<%=sessionID%> società=<%=societa%> </h3>
-
+<h3>Ciao <%=nome %> </h3>
+<br>
+Login corretto.
+<br>
+La tua Session ID=<%=sessionID%>
 <br>
 User=<%=user %>
 <br>
