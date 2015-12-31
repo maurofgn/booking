@@ -47,12 +47,13 @@ public class LoginServlet extends HttpServlet {
 		int userId = 0;
     	String nome = null;
     	String cognome = null;		    	
+    	String ruolo = null;		    	
 //    	int societaId = 0;
 //    	String societa = null;
 //    	int tessera = 0;
 		try {
 			StringBuffer sb = new StringBuffer();
-			sb.append("select p.id, p.nome, p.cognome ");
+			sb.append("select p.id, p.nome, p.cognome, p.ruolo ");
 //			sb.append( ",s.societa_id, so.nome societa, s.tessera ");
 			sb.append("from persona p ");
 //			sb.append("left join (socio s ");
@@ -69,6 +70,7 @@ public class LoginServlet extends HttpServlet {
 				userId = rs.getInt("id");
 				nome = rs.getString("nome");
 				cognome = rs.getString("cognome");
+				ruolo = rs.getString("ruolo");
 //				societaId = rs.getInt("societa_id");
 //				societa = rs.getString("societa");
 //				tessera = rs.getInt("tessera");
@@ -88,6 +90,7 @@ public class LoginServlet extends HttpServlet {
 			session.setAttribute("userId",userId);
 			session.setAttribute("nome", nome);
 			session.setAttribute("cognome", cognome);
+			session.setAttribute("ruolo", ruolo);
 //			session.setAttribute("societa_id", societaId);
 //			session.setAttribute("societa", societa);
 //			session.setAttribute("tessera", tessera);
