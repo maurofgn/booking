@@ -40,7 +40,27 @@ $(function() {
 <div><label for="mail"><fmt:message key="persona.label.mail" bundle="${lang}" />:</label> <input type="text" name="mail" id="mail" value="<c:out value="${bean.mail}" />" > </div>
 <div><label for="codFisc"><fmt:message key="persona.label.codFisc" bundle="${lang}" />:</label> <input type="text" name="codFisc" id="codFisc" value="<c:out value="${bean.codFisc}" />" > </div>
 <div><label for="nascita"><fmt:message key="persona.label.nascita" bundle="${lang}" />:</label> <input type="text" name="nascita" id="nascita" value="<fmt:formatDate pattern="dd/MM/yyyy" value="${bean.nascita}" />" > </div>
-<div><label for="sesso"><fmt:message key="persona.label.sesso" bundle="${lang}" />:</label> <input type="text" name="sesso" id="sesso" value="<c:out value="${bean.sesso}" />" > </div>
+<div><label for="sesso"><fmt:message key="persona.label.sesso" bundle="${lang}" />:</label> </div>
+
+<div><label for="sesso"><fmt:message key="sesso.maschio" bundle="${lang}" />:</label>
+
+	<input type="checkbox" name="sesso" id="sesso" value="<c:out value="${bean.sesso}" />" 
+	 <c:if test="${bean.sesso == 'M'}">checked="checked"</c:if>
+	> 
+	
+	
+	<label for="sesso"><fmt:message key="sesso.femmina" bundle="${lang}" />:</label>
+	<input type="checkbox" name="sesso" id="sesso" value="<c:out value="${bean.sesso}" />" 
+	 <c:if test="${bean.sesso == 'F'}">checked="checked"</c:if>
+	> 
+
+</div>
+
+
+<input type="checkbox" name="someData" value="2" id="id3" 
+    <c:if test="${field.name == 'FIELD3'}">checked="checked"</c:if>
+/>
+
 
 <c:if test="${'A' == ruolo}">
 	<div><label for="utente"><fmt:message key="persona.label.utente" bundle="${lang}" />:</label> <input type="text" name="utente" id="utente" value="<c:out value="${bean.utente}" />" > </div>
