@@ -5,8 +5,8 @@
 
 <head>
 <title><decorator:title default="booking" /></title>
-<decorator:head/>
 <%@ include file="/includes/style.jsp"%>
+<decorator:head/>
 </head>
 
 <%-- <body bgcolor="#FFFFFF"	background="<%=request.getContextPath()%>/images/bg.gif"> --%>
