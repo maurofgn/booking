@@ -25,6 +25,8 @@ $(function() {
                 System.out.println(action);
             %>
             
+            <input type="hidden" name="id" id="id" value="<c:out value="${bean.id}" />" />
+            
 				<div>
 					<label for="nome"><fmt:message key="persona.label.nome" bundle="${lang}" />:</label>
 					<input type="text" name="nome" id="nome" value="<c:out value="${bean.nome}" />" placeholder="Nome" required>
