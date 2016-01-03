@@ -11,7 +11,7 @@
 
 <%-- <body bgcolor="#FFFFFF"	background="<%=request.getContextPath()%>/images/bg.gif"> --%>
 <body bgcolor="#FFFFFF">
-<%-- 	<%@ include file="/includes/header.jsp"%> --%>
+	<%@ include file="/includes/header.jsp"%>
 	<table width="100%" border="0" cellspacing="0" cellpadding="0">
 		<tr>
 			<td height="20" nowrap></td>
@@ -31,7 +31,7 @@
 		</tr>
 	</table>
 	<br>
-<%-- 	<%@ include file="/includes/footer.jsp"%> --%>
-<%-- 	<%@ include file="/includes/copyright.jsp"%> --%>
+	<%@ include file="/includes/footer.jsp"%>
+	<%@ include file="/includes/copyright.jsp"%>
 </body>
 </html>
