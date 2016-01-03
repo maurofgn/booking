@@ -18,7 +18,7 @@
                	<th>nome</th>
 				<th>cognome</th>
 				<th>citta</th>
-				<th>prov</th>
+<!-- 				<th>prov</th>
 				<th>indirizzo</th>
 				<th>telefono</th>
 				<th>mail</th>
@@ -27,16 +27,19 @@
 				<th>utente</th>
 				<th>ruolo</th>
 				<th>Nascita</th>
-				<th>sesso</th>
-                <th colspan=2>Action</th>
+				<th>sesso</th> -->
+<!--                 <th colspan=2>Action</th> -->
             </tr>
         </thead>
         <tbody>
             <c:forEach items="${beans}" var="bean">
                 <tr>
-                	<td><c:out value="${bean.nome}" /></td>
+                	<td>
+                	<a href="PersonaController?action=edit&id=<c:out value="${bean.id}"/>">
+                	<c:out value="${bean.nome}" /></a></td>
 					<td><c:out value="${bean.cognome}" /></td>
 					<td><c:out value="${bean.citta}" /></td>
+<%-- 					
 					<td><c:out value="${bean.prov}" /></td>
 					<td><c:out value="${bean.indirizzo}" /></td>
 					<td><c:out value="${bean.telefono}" /></td>
@@ -47,9 +50,10 @@
 					<td><c:out value="${bean.ruolo}" /></td>
 					<td><fmt:formatDate pattern="dd MMM,yyyy" value="${bean.nascita}" /></td>
 					<td><c:out value="${bean.sesso}" /></td>
+					 --%>
 					
-                    <td><a href="PersonaController?action=edit&id=<c:out value="${bean.id}"/>">Update</a></td>
-                    <td><a href="PersonaController?action=delete&id=<c:out value="${bean.id}"/>">Delete</a></td>
+<%--                     <td><a href="PersonaController?action=edit&id=<c:out value="${bean.id}"/>">Update</a></td> --%>
+<%--                     <td><a href="PersonaController?action=delete&id=<c:out value="${bean.id}"/>">Delete</a></td> --%>
                 </tr>
             </c:forEach>
         </tbody>

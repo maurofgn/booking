@@ -31,6 +31,7 @@ $(function() {
 					<label for="nome"><fmt:message key="persona.label.nome" bundle="${lang}" />:</label>
 					<input type="text" name="nome" id="nome" value="<c:out value="${bean.nome}" />" placeholder="Nome" required>
 				</div>
+				
 
 <div><label for="cognome"><fmt:message key="persona.label.cognome" bundle="${lang}" />:</label> <input type="text" name="cognome" id="cognome" value="<c:out value="${bean.cognome}" />" > </div>
 <div><label for="citta"><fmt:message key="persona.label.citta" bundle="${lang}" />:</label> <input type="text" name="citta" id="citta" value="<c:out value="${bean.citta}" />" > </div>
@@ -40,26 +41,12 @@ $(function() {
 <div><label for="mail"><fmt:message key="persona.label.mail" bundle="${lang}" />:</label> <input type="text" name="mail" id="mail" value="<c:out value="${bean.mail}" />" > </div>
 <div><label for="codFisc"><fmt:message key="persona.label.codFisc" bundle="${lang}" />:</label> <input type="text" name="codFisc" id="codFisc" value="<c:out value="${bean.codFisc}" />" > </div>
 <div><label for="nascita"><fmt:message key="persona.label.nascita" bundle="${lang}" />:</label> <input type="text" name="nascita" id="nascita" value="<fmt:formatDate pattern="dd/MM/yyyy" value="${bean.nascita}" />" > </div>
-<div><label for="sesso"><fmt:message key="persona.label.sesso" bundle="${lang}" />:</label> </div>
-
-<div><label for="sesso"><fmt:message key="sesso.maschio" bundle="${lang}" />:</label>
-
-	<input type="checkbox" name="sesso" id="sesso" value="<c:out value="${bean.sesso}" />" 
-	 <c:if test="${bean.sesso == 'M'}">checked="checked"</c:if>
-	> 
-	
-	
-	<label for="sesso"><fmt:message key="sesso.femmina" bundle="${lang}" />:</label>
-	<input type="checkbox" name="sesso" id="sesso" value="<c:out value="${bean.sesso}" />" 
-	 <c:if test="${bean.sesso == 'F'}">checked="checked"</c:if>
-	> 
-
+<div><label for="sesso"><fmt:message key="persona.label.sesso" bundle="${lang}" />:</label> 
+	<select  name='sesso'>
+	    <option value="M" ${bean.sesso == 'M' ? 'selected' : ''}><fmt:message key="sesso.maschio" bundle="${lang}" /></option>
+	    <option value="F" ${bean.sesso == 'F' ? 'selected' : ''}><fmt:message key="sesso.femmina" bundle="${lang}" /></option>
+	</select>
 </div>
-
-
-<input type="checkbox" name="someData" value="2" id="id3" 
-    <c:if test="${field.name == 'FIELD3'}">checked="checked"</c:if>
-/>
 
 
 <c:if test="${'A' == ruolo}">
@@ -68,7 +55,9 @@ $(function() {
 	<div><label for="ruolo"><fmt:message key="persona.label.ruolo" bundle="${lang}" />:</label> <input type="text" name="ruolo" id="ruolo" value="<c:out value="${bean.ruolo}" />" > </div>
 </c:if>
 
-			<input type="submit" value="Submit" />
+			<input type="submit" value="<fmt:message key="submit" bundle="${lang}" />" />
+			
+			<input type="button" onclick="location.href='<%=request.getContextPath() %>/PersonaController?action=delete&id=${bean.id}';" value="<fmt:message key="delete" bundle="${lang}"/>" />
 	</form>
     </body>
 </html>
