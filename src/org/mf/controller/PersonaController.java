@@ -83,7 +83,7 @@ public class PersonaController extends HttpServlet {
 		}
 		
 		RequestDispatcher view = request.getRequestDispatcher(LIST);
-		request.setAttribute("persone", dao.getAll());
+		request.setAttribute("beans", dao.getAll());
 		view.forward(request, response);
 	}
 	
