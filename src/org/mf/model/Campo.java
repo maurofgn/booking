@@ -12,7 +12,7 @@ public class Campo {
 	private Integer intervalloOra = 0;
 	private Integer intervalloOre = 0;
 	private Integer sequenza = 0;
-	private Societa societa;
+	private Integer societa_Id;
 	
 	
 	public Integer getId() {
@@ -75,11 +75,11 @@ public class Campo {
 	public void setSequenza(Integer sequenza) {
 		this.sequenza = sequenza;
 	}
-	public Societa getSocieta() {
-		return societa;
+	public Integer getSocieta_Id() {
+		return societa_Id;
 	}
-	public void setSocieta(Societa societa) {
-		this.societa = societa;
+	public void setSocieta_Id(Integer societa_Id) {
+		this.societa_Id = societa_Id;
 	}
 	
 	@Override
@@ -91,7 +91,7 @@ public class Campo {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
-		result = prime * result + ((societa == null) ? 0 : societa.hashCode());
+		result = prime * result + ((societa_Id == null) ? 0 : societa_Id.hashCode());
 		result = prime * result + ((tipo == null) ? 0 : tipo.hashCode());
 		return result;
 	}
@@ -109,10 +109,10 @@ public class Campo {
 				return false;
 		} else if (!nome.equals(other.nome))
 			return false;
-		if (societa == null) {
-			if (other.societa != null)
+		if (societa_Id == null) {
+			if (other.societa_Id != null)
 				return false;
-		} else if (!societa.equals(other.societa))
+		} else if (!societa_Id.equals(other.societa_Id))
 			return false;
 		if (tipo == null) {
 			if (other.tipo != null)
