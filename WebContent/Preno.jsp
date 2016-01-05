@@ -46,8 +46,6 @@ $(function() {
 <body>
 
 <% String action = request.getParameter("action");
-   
-    System.out.println("id utente in sessione: " + session.getAttribute("userId"));
 %>
 
 	<form method="POST" action='PrenoController' name="frmPreno">
