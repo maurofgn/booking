@@ -9,10 +9,39 @@ if (session.getAttribute("userId") != null) {
 	}
 %>
 
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+<style type="text/css">
+  table.header {
+    width: 100%;
+    border=0; 
+    cellspacing=0;
+    cellpadding=0;
+    overflow: hidden;
+    display: inline-block;
+    white-space: nowrap;
+/*     text-align: center; */
+    }
+  table.header th {
+    width: 30px;
+    overflow: hidden;
+    display: inline-block;
+    white-space: nowrap;
+    text-align: center;
+    }
+  table.header td {
+    width: 30px;
+    overflow: hidden;
+    display: inline-block;
+    white-space: nowrap;
+    text-align: center;
+}
+</style>
+
+
+<table class="header">
 		<tr>
 			<td>
-			<div id="bookingLogo" >
+			<div id="bookingLogo" align="left" >
 			<a href="<%=request.getContextPath()%>">
 				<img src="<%=request.getContextPath()%>/images/logo.png" alt="Booking"/>
 			</a>
@@ -31,7 +60,7 @@ if (session.getAttribute("userId") != null) {
 			</td>
 			
 			<td>
-				<div id="checkout" align="right">
+				<div id="checkout" align="center">
 					<a href="<%=request.getContextPath()%>/LogoutServlet">
 					<img src="<%=request.getContextPath()%>/images/shutdown.png" alt="Uscita"/>
 					</a>
