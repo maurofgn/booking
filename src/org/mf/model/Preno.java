@@ -3,12 +3,20 @@ package org.mf.model;
 import java.util.Date;
 
 public class Preno {
+	
 
+	private Integer id;
 	private Date data;
 	private Integer ora;
-	private Integer nrOre;
-	private Campo campo;
-	private Socio socio;
+	private Integer campoId;
+	private Integer socioId;
+	
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
 	public Date getData() {
 		return data;
 	}
@@ -21,32 +29,28 @@ public class Preno {
 	public void setOra(Integer ora) {
 		this.ora = ora;
 	}
-	public Integer getNrOre() {
-		return nrOre;
+
+	public Integer getCampoId() {
+		return campoId;
 	}
-	public void setNrOre(Integer nrOre) {
-		this.nrOre = nrOre;
+	public void setCampoId(Integer campoId) {
+		this.campoId = campoId;
 	}
-	public Campo getCampo() {
-		return campo;
+	public Integer getSocioId() {
+		return socioId;
 	}
-	public void setCampo(Campo campo) {
-		this.campo = campo;
+	public void setSocioId(Integer socioId) {
+		this.socioId = socioId;
 	}
-	public Socio getSocio() {
-		return socio;
-	}
-	public void setSocio(Socio socio) {
-		this.socio = socio;
-	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((campo == null) ? 0 : campo.hashCode());
+		result = prime * result + ((campoId == null) ? 0 : campoId.hashCode());
 		result = prime * result + ((data == null) ? 0 : data.hashCode());
-		result = prime * result + ((nrOre == null) ? 0 : nrOre.hashCode());
 		result = prime * result + ((ora == null) ? 0 : ora.hashCode());
+		result = prime * result + ((socioId == null) ? 0 : socioId.hashCode());
 		return result;
 	}
 	@Override
@@ -58,34 +62,33 @@ public class Preno {
 		if (getClass() != obj.getClass())
 			return false;
 		Preno other = (Preno) obj;
-		if (campo == null) {
-			if (other.campo != null)
+		if (campoId == null) {
+			if (other.campoId != null)
 				return false;
-		} else if (!campo.equals(other.campo))
+		} else if (!campoId.equals(other.campoId))
 			return false;
 		if (data == null) {
 			if (other.data != null)
 				return false;
 		} else if (!data.equals(other.data))
 			return false;
-		if (nrOre == null) {
-			if (other.nrOre != null)
-				return false;
-		} else if (!nrOre.equals(other.nrOre))
-			return false;
 		if (ora == null) {
 			if (other.ora != null)
 				return false;
 		} else if (!ora.equals(other.ora))
 			return false;
+		if (socioId == null) {
+			if (other.socioId != null)
+				return false;
+		} else if (!socioId.equals(other.socioId))
+			return false;
 		return true;
 	}
 	@Override
 	public String toString() {
-		return "Preno [data=" + data + ", ora=" + ora + ", nrOre=" + nrOre
-				+ ", campo=" + campo + ", socio=" + socio + "]";
+		return "Preno [id=" + id + ", data=" + data + ", ora=" + ora
+				+ ", campoId=" + campoId + ", socioId="
+				+ socioId + "]";
 	}
 	
-	
-
 }

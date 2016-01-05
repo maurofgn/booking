@@ -1,5 +1,7 @@
 package org.mf.model;
 
+import org.mf.modelView.Cariche;
+
 public class Carica {
 
 	private int id;

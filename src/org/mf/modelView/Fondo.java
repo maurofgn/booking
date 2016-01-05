@@ -1,4 +1,4 @@
-package org.mf.model;
+package org.mf.modelView;
 
 public enum Fondo {
 	Sintetico, TerraRossa, Erba;

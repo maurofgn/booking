@@ -20,7 +20,7 @@ public abstract class Dao {
 		return connection;
 	}
 	
-	void stmtPara(PreparedStatement stmt, int parameterPos, int type, Object value) throws SQLException {
+	public static void stmtPara(PreparedStatement stmt, int parameterPos, int type, Object value) throws SQLException {
 		
 		if (value == null) {
 			stmt.setNull(parameterPos, type);			
@@ -75,6 +75,4 @@ public abstract class Dao {
 	
 	abstract Object assignBean(ResultSet rs) throws SQLException;
 
-
-	
 }

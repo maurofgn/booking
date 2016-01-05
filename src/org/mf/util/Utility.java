@@ -17,22 +17,21 @@ public class Utility {
 		} catch (Exception e) {
 			retValue = 0;
 		}
-		
 		return retValue;
 	}
 	
 	public static Date parseDate(String s) {
-		
 		Date retValue = null;
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 		try {
-			retValue = sdf.parse(s);
+			if (s != null) {
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+				retValue = sdf.parse(s);
+			}
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 		return retValue;
 	}
-	
 	
 	public static int randInt(int min, int max) {
 		Random rand = new Random();

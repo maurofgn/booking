@@ -1,6 +1,14 @@
 package org.mf.model;
 
-public class Campo {
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Hashtable;
+import java.util.List;
+
+import org.mf.dao.PrenoDao;
+import org.mf.modelView.Fondo;
+
+public class Campo implements Comparable<Campo> {
 
 	private int id;
 	private String nome;
@@ -13,7 +21,6 @@ public class Campo {
 	private Integer intervalloOre = 0;
 	private Integer sequenza = 0;
 	private Integer societa_Id;
-	
 	
 	public Integer getId() {
 		return id;
@@ -81,20 +88,56 @@ public class Campo {
 	public void setSocieta_Id(Integer societa_Id) {
 		this.societa_Id = societa_Id;
 	}
+
+	/**
+	 * 
+	 * @param ora
+	 * @return prossima ora a partire da ora e per nrOre. Tiene conto dell'intervallo e ritorna -1 se l'ora va oltre o uguale alla chiusura
+	 */
+	public int getNextHour(int ora) {
+		
+		int next = ora + 1;
+		if (next >= intervalloOra && next <= intervalloOra+intervalloOre)
+			next = intervalloOra+intervalloOre;
+		
+		return next >= chiusuraOra ? -1 : next;
+	}
+	
+	/**
+	 * 
+	 * @return lista di prenotazioni ordinate x ora, per ogni singola data, relative al campo di istanza 
+	 */
+	public Hashtable<Date, List<Preno>> getPreno() {
+		PrenoDao prenoDao = new PrenoDao();
+		
+		List<Preno> prenos = prenoDao.getAll(getId());
+		Hashtable<Date, List<Preno>> retValue = new  Hashtable<Date, List<Preno>>();
+		
+		for (Preno preno : prenos) {
+			List<Preno> oneDayPreno = retValue.get(preno.getData());
+			if (oneDayPreno == null) {
+				oneDayPreno = new ArrayList<Preno>();
+				retValue.put(preno.getData(), oneDayPreno);
+			}
+			oneDayPreno.add(preno);
+		}
+		return retValue;
+	}
+
 	
 	@Override
 	public String toString() {
 		return "Campo [nome=" + nome + "]";
 	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
-		result = prime * result + ((societa_Id == null) ? 0 : societa_Id.hashCode());
-		result = prime * result + ((tipo == null) ? 0 : tipo.hashCode());
+		result = prime * result + id;
 		return result;
 	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -104,22 +147,24 @@ public class Campo {
 		if (getClass() != obj.getClass())
 			return false;
 		Campo other = (Campo) obj;
-		if (nome == null) {
-			if (other.nome != null)
-				return false;
-		} else if (!nome.equals(other.nome))
-			return false;
-		if (societa_Id == null) {
-			if (other.societa_Id != null)
-				return false;
-		} else if (!societa_Id.equals(other.societa_Id))
-			return false;
-		if (tipo == null) {
-			if (other.tipo != null)
-				return false;
-		} else if (!tipo.equals(other.tipo))
+		if (id != other.id)
 			return false;
 		return true;
+	}
+	
+	@Override
+	public int compareTo(Campo o) {
+		if (getSequenza() > o.getSequenza())
+			return 1;
+		else if (getSequenza() < o.getSequenza())
+			return -1;
+		
+		if (getId() > o.getId())
+			return 1;
+		else if (getId() < o.getId())
+			return -1;
+		
+		return 0;
 	}
 	
 	

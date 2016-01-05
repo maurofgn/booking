@@ -6,10 +6,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.mf.model.Campo;
-import org.mf.model.Fondo;
+import org.mf.modelView.Fondo;
 
 public class CampoDao extends Dao {
 	
@@ -30,7 +32,7 @@ public class CampoDao extends Dao {
 			ps.setInt(1, campo.getId());
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
-				update(campo);	
+				update(campo);
 			} else {
 				add(campo);
 			}
@@ -136,14 +138,109 @@ public class CampoDao extends Dao {
 		retValue.setTipo(Fondo.fromOrdinal(rs.getInt("tipo")));
 		retValue.setNome(rs.getString("nome"));
 		retValue.setDescrizione(rs.getString("descrizione"));
-		retValue.setAperturaOra(rs.getInt("aperturaOra"));
-		retValue.setAperturaMin(rs.getInt("aperturaMin"));
-		retValue.setChiusuraOra(rs.getInt("chiusuraOra"));
-		retValue.setIntervalloOra(rs.getInt("intervalloOra"));
-		retValue.setIntervalloOre(rs.getInt("intervalloOre"));
-		retValue.setSocieta_Id(rs.getInt("societa_ID"));
+		retValue.setAperturaOra(rs.getInt("apertura_Ora"));
+		retValue.setAperturaMin(rs.getInt("apertura_Min"));
+		retValue.setChiusuraOra(rs.getInt("chiusura_Ora"));
+		retValue.setIntervalloOra(rs.getInt("intervallo_Ora"));
+		retValue.setIntervalloOre(rs.getInt("intervallo_Ore"));
+		retValue.setSocieta_Id(rs.getInt("societa_Id"));
 		retValue.setSequenza(rs.getInt("sequenza"));
 		
+		return retValue;
+	}
+	
+	/**
+	 * 
+	 * @param socioId
+	 * @return Hashtable<Societa_ID, List<Campo>>
+	 */
+	public Hashtable<Integer, List<Campo>> getAllSocPerSocio(int socioId) {
+		
+		StringBuffer sb = new StringBuffer();
+		sb.append("select "); 
+		sb.append("pg.* "); 
+		sb.append("from persona p "); 
+		sb.append("inner join socio u on u.persona_id = p.id "); 
+		sb.append("inner join campo pg on pg.societa_id = u.societa_id "); 
+		sb.append("where p.id = ? ");
+		sb.append("order by pg.societa_id, pg.id");
+		
+		Hashtable<Integer, List<Campo>> retValue = new Hashtable<Integer, List<Campo>>();
+
+		PreparedStatement stmt = null;
+		try {
+			stmt = getConnection().prepareStatement(sb.toString());
+			stmt.setInt(1, socioId);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				
+				List<Campo> campi = retValue.get(rs.getInt("societa_ID"));
+				
+				if (campi == null) {
+					campi = new ArrayList<Campo>();
+					retValue.put(rs.getInt("societa_ID"), campi);
+				}
+				campi.add(assignBean(rs));
+			}
+			
+			stmt.close();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (stmt != null)
+				try {
+					stmt.close();
+				} catch (SQLException e) { /* NO ACTION */
+				}
+		}
+		return retValue;
+	}
+	
+	/**
+	 * 
+	 * @param lista di societa_ID
+	 * @return Hashtable<Societa_ID, List<Campo>>
+	 */
+	public Hashtable<Integer, List<Campo>> getAllSoc(List<Integer> societa) {
+		
+		StringBuffer sb = new StringBuffer();
+		sb.append("select * from campo ");
+		if (societa != null && !societa.isEmpty()) {
+			sb.append("where societa_id in ( ");
+			sb.append(StringUtils.join(societa, ','));
+			sb.append(") ");
+		}
+		sb.append("order by societa_id, id");
+		
+		Hashtable<Integer, List<Campo>> retValue = new Hashtable<Integer, List<Campo>>();
+
+		PreparedStatement stmt = null;
+		try {
+			stmt = getConnection().prepareStatement(sb.toString());
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				
+				List<Campo> campi = retValue.get(rs.getInt("societa_ID"));
+				
+				if (campi == null) {
+					campi = new ArrayList<Campo>();
+					retValue.put(rs.getInt("societa_ID"), campi);
+				}
+				campi.add(assignBean(rs));
+			}
+			
+			stmt.close();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (stmt != null)
+				try {
+					stmt.close();
+				} catch (SQLException e) { /* NO ACTION */
+				}
+		}
 		return retValue;
 	}
 
