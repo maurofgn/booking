@@ -14,7 +14,7 @@
         
 <script type="text/javascript">
 $(function() {
-    $( "#nascita" ).datepicker({ dateFormat: 'dd/mm/yy' });
+    $( "#nascita" ).datepicker({ dateFormat: 'dd/mm/yy', minDate: 'today-100Y', maxDate: 'today-10Y' });
   });
 </script>
 

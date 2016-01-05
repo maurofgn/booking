@@ -16,7 +16,7 @@
 
 <script type="text/javascript">
 $(function() {
-    $( "#datepicker" ).datepicker({ dateFormat: 'dd/mm/yy' });
+    $( "#datepicker" ).datepicker({ dateFormat: 'dd/mm/yy', yearRange: '1999:2000', minDate: 'today-100Y', maxDate: 'today-10Y' });
   });
 </script>
 
@@ -25,6 +25,8 @@ $(function() {
  
 <p>Date: <input type="text" id="datepicker"></p>
  
- 
-</body>
+<p>text: <input type="text" id="33"></p>
+
+ </body>
 </html>
+

@@ -67,3 +67,10 @@ label {
 	border-radius: 3px;
 	text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.3);
 }
+
+table td {
+    width: 30px;
+    overflow: hidden;
+    display: inline-block;
+    white-space: nowrap;
+}
