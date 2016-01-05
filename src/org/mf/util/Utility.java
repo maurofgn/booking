@@ -24,7 +24,7 @@ public class Utility {
 		Date retValue = null;
 		try {
 			if (s != null) {
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 				retValue = sdf.parse(s);
 			}
 		} catch (ParseException e) {
