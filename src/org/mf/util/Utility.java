@@ -28,7 +28,7 @@ public class Utility {
 				retValue = sdf.parse(s);
 			}
 		} catch (ParseException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		return retValue;
 	}
