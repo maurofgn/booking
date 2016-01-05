@@ -14,14 +14,14 @@
         
 <script type="text/javascript">
 $(function() {
-    $( "#dataPreno" ).datepicker({ dateFormat: 'dd/mm/yy', minDate: 'today', maxDate: 'today-10d' });
+    $( "#dataPreno" ).datepicker({ dateFormat: 'dd/mm/yy', minDate: 'today', maxDate: 'today+10d' });
   });
   
   
-$('.dataPreno').change(function() {
-	  var date2 = $('.dataPreno').datepicker('getDate', '+1d'); 
-	  echo date2;	//
-	}); 
+// $('.dataPreno').change(function() {
+// 	  var date2 = $('.dataPreno').datepicker('getDate', '+1d'); 
+// 	  echo date2;	//
+// 	}); 
 
 </script>
 
