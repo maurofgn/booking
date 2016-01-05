@@ -23,7 +23,7 @@ public class PrenoRow implements Comparable<PrenoRow> {
 		this.data = data;
 		this.primaOra = primaOra;
 		this.ultimaOra = ultimaOra;
-		preno = new int[ultimaOra >= primaOra ? ultimaOra-primaOra+1 : 0];
+		preno = new int[ultimaOra >= primaOra ? ultimaOra-primaOra : 0];
 		
 		for (int i = 0; i < preno.length; i++) {
 			if (i + primaOra < campo.getAperturaOra())
@@ -51,7 +51,8 @@ public class PrenoRow implements Comparable<PrenoRow> {
 	}
 	
 	public void addOneHour(int hh, int personaId) {
-		preno[hh-primaOra] = personaId;
+		if (hh>=primaOra)
+			preno[hh-primaOra] = personaId;
 	}
 
 	public Campo getCampo() {
