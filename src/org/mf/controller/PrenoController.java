@@ -46,7 +46,8 @@ public class PrenoController extends HttpServlet {
 			dao.delete(id);
 			forward = LIST;
 			request.setAttribute("beans", dao.getAll());
-*/		} else if (action.equalsIgnoreCase("list")) {
+*/		
+		} else if (action.equalsIgnoreCase("list")) {
 			forward = LIST;
 			loadPreno(request);
 		} else {
@@ -59,6 +60,15 @@ public class PrenoController extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		
+		String action = request.getParameter("action");
+		if (action.equalsIgnoreCase("save")) {
+			System.out.println("save");
+		}
+		
+		loadPreno(request);
+		
+		
 		
 		loadPreno(request);
 		
