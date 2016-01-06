@@ -14,7 +14,7 @@ public class PrenoRow implements Comparable<PrenoRow> {
 	private Date data;
 	private int primaOra;
 	private int ultimaOra;
-	private int[] preno;
+	private PrenoHour[] preno;
 	
 	public PrenoRow(int socioId, Campo campo, Date data, int primaOra, int ultimaOra) {
 		super();
@@ -23,17 +23,17 @@ public class PrenoRow implements Comparable<PrenoRow> {
 		this.data = data;
 		this.primaOra = primaOra;
 		this.ultimaOra = ultimaOra;
-		preno = new int[ultimaOra >= primaOra ? ultimaOra-primaOra : 0];
+		preno = new PrenoHour[ultimaOra >= primaOra ? ultimaOra-primaOra : 0];
 		
 		for (int i = 0; i < preno.length; i++) {
 			if (i + primaOra < campo.getAperturaOra())
-				preno[i] = -1;
+				preno[i] = new PrenoHour();
 			else if (i + primaOra >=campo.getIntervalloOra() && i + primaOra < campo.getIntervalloOra() + campo.getIntervalloOre())
-				preno[i] = -1;
+				preno[i] = new PrenoHour();
 			else if (i + primaOra >=campo.getChiusuraOra())
-				preno[i] = -1;
+				preno[i] = new PrenoHour();
 			else
-				preno[i] = 0;
+				preno[i] = new PrenoHour(PrenoState.Libero);
 		}
 	}
 	
@@ -51,8 +51,10 @@ public class PrenoRow implements Comparable<PrenoRow> {
 	}
 	
 	public void addOneHour(int hh, int personaId) {
-		if (hh>=primaOra)
-			preno[hh-primaOra] = personaId;
+		if (hh >= primaOra) {
+			preno[hh-primaOra].setPersonaId(personaId);
+			preno[hh-primaOra].setStato(socioId == personaId ? PrenoState.MiaPreno : PrenoState.Occupato);
+		}
 	}
 
 	public Campo getCampo() {
@@ -67,7 +69,7 @@ public class PrenoRow implements Comparable<PrenoRow> {
 		return ultimaOra;
 	}
 
-	public int[] getPreno() {
+	public PrenoHour[] getPreno() {
 		return preno;
 	}
 	
@@ -79,20 +81,20 @@ public class PrenoRow implements Comparable<PrenoRow> {
 		return head;
 	}
 	
-	public PrenoState[] getPrenoColored() {
-		PrenoState[] c = new PrenoState[preno.length];
-		for (int i = 0; i < preno.length; i++) {
-			if (preno[i] < 0)
-				c[i] = PrenoState.Indisponibile;
-			else if (preno[i] == 0)
-				c[i] = PrenoState.Libero;
-			else if (preno[i] == socioId)
-				c[i] = PrenoState.MiaPreno;
-			else
-				c[i] = PrenoState.Occupato;
-		}
-		return c;
-	}
+//	public PrenoState[] getPrenoColored() {
+//		PrenoState[] c = new PrenoState[preno.length];
+//		for (int i = 0; i < preno.length; i++) {
+//			if (preno[i] < 0)
+//				c[i] = PrenoState.Indisponibile;
+//			else if (preno[i] == 0)
+//				c[i] = PrenoState.Libero;
+//			else if (preno[i] == socioId)
+//				c[i] = PrenoState.MiaPreno;
+//			else
+//				c[i] = PrenoState.Occupato;
+//		}
+//		return c;
+//	}
 
 
 
