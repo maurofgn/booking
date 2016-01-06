@@ -100,7 +100,7 @@ public class LoginServlet extends HttpServlet {
 			Cookie userName = new Cookie("user", user);
 			userName.setMaxAge(30 * 60);
 			response.addCookie(userName);
-			response.sendRedirect(request.getContextPath() + "/LoginSuccess.jsp");
+			response.sendRedirect(request.getContextPath() + "/PrenoController");
 		} else {
 			RequestDispatcher rd = getServletContext().getRequestDispatcher("/login.jsp");
 			PrintWriter out = response.getWriter();
