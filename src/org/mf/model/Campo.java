@@ -95,6 +95,8 @@ public class Campo implements Comparable<Campo> {
 	 * @return prossima ora a partire da ora e per nrOre. Tiene conto dell'intervallo e ritorna -1 se l'ora va oltre o uguale alla chiusura
 	 */
 	public int getNextHour(int ora) {
+		if (ora < 0)
+			return ora;
 		
 		int next = ora + 1;
 		if (next >= intervalloOra && next <= intervalloOra+intervalloOre)
