@@ -19,6 +19,7 @@ import org.mf.dao.PrenoDao;
 import org.mf.model.Preno;
 import org.mf.modelView.PrenoHourJson;
 import org.mf.modelView.PrenoHoursJson;
+import org.mf.modelView.PrenoState;
 import org.mf.util.Utility;
 
 import com.google.gson.Gson;
@@ -81,16 +82,20 @@ public class PrenoController extends HttpServlet {
 		
 		PrenoHoursJson prenoHoursJson = gson.fromJson(jsonLine, PrenoHoursJson.class);
 		
-		List<Preno> prenos = new ArrayList<Preno>();
+		List<Preno> prenosToRemove = new ArrayList<Preno>();
+		List<Preno> prenosToInsert = new ArrayList<Preno>();
 		for (int i = 0; i < prenoHoursJson.getHours().length; i++) {
 			PrenoHourJson prenoHourJson = prenoHoursJson.getHours()[i];
 			Integer socio = getSocio(campoDao, campoSocio, prenoHourJson.getCampo(), personaId);
-			prenos.add(new Preno(prenoHourJson, socio, prenoHoursJson.getData()));
+			Preno preno = new Preno(prenoHourJson, socio, prenoHoursJson.getData());
+			if (PrenoState.MiaPreno == prenoHourJson.getStato())
+				prenosToRemove.add(preno);
+			else
+				prenosToInsert.add(preno);
+			
 		}
 			
-		dao.save(prenos);
-
-		
+		dao.save(prenosToRemove, prenosToInsert);
 	}
 
 	private Integer getSocio(CampoDao campoDao, Hashtable<Integer, Integer> campoSocio, int campo, Integer personaId) {
