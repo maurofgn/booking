@@ -46,7 +46,7 @@ public class PrenoDao extends Dao {
 		
 		StringBuffer sb = new StringBuffer();
 		sb.append("INSERT INTO preno "); 
-		sb.append("(socio_id ,campo_id ,data ,ora) VALUES "); 
+		sb.append("(socio_id ,campo_id ,data ,ora) VALUES ");
 		sb.append("(?        ,?        ,?    ,?  ) ");
 		//          1   	  2     	3	  4
 
@@ -274,6 +274,40 @@ public class PrenoDao extends Dao {
 		retValue.setOra(rs.getInt("ora"));
 		
 		return retValue;
+	}
+
+	/**
+	 * salva una serie di prenotazioni
+	 * @param prenos
+	 */
+	public void save(List<Preno> prenos) {
+		
+		if (prenos == null || prenos.isEmpty())
+			return;
+		
+		StringBuffer sb = new StringBuffer();
+		sb.append("INSERT INTO preno "); 
+		sb.append("(socio_id ,campo_id ,data ,ora) VALUES ");
+		sb.append("(?        ,?        ,?    ,?  ) ");
+		//          1   	  2     	3	  4
+
+		try {
+			PreparedStatement stmt = getConnection().prepareStatement(sb.toString());
+			
+			for (Preno preno : prenos) {
+			
+				stmtPara(stmt, 1, Types.VARCHAR, preno.getSocioId());
+				stmtPara(stmt, 2, Types.INTEGER, preno.getCampoId());
+				stmtPara(stmt, 3, Types.DATE, preno.getData());
+				stmtPara(stmt, 4, Types.INTEGER, preno.getOra());
+
+				stmt.executeUpdate();
+			}
+			
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
 	}
 	
 }
