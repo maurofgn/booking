@@ -43,7 +43,7 @@ $(function() {
    		            var res = this.id.split(",");
    		            var hh = { "campo": "", "ora": "", "stato": "", "checked": ""};
    		            hh.campo = res[0];
-   		            hh.ora = res[1];
+   		            hh.ora = this.name;
    		            hh.stato = this.value;
    		            hh.checked = this.checked;
    		         	allHours.hours.push(hh);
@@ -282,9 +282,8 @@ table.preno td.fondo {
                					type="checkbox" 
                					id="${prenoRow.campo.id},${loop.index}" 
                					value="${prenoHour.stato}"
-               					name="${prenoRow.campo.id}"
+               					name="${prenoHour.hour}"
                					<c:if test="${prenoHour.getPersonaId() > 0}">checked</c:if>
-	
                				/>
                			</c:if>
 
