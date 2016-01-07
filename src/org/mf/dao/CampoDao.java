@@ -244,4 +244,46 @@ public class CampoDao extends Dao {
 		return retValue;
 	}
 
+	/**
+	 * 
+	 * @param campo
+	 * @param personaId
+	 * @return socio id
+	 */
+	public Integer getSocio(int campo, Integer personaId) {
+		
+		StringBuffer sb = new StringBuffer();
+		
+		sb.append("SELECT "); 
+		sb.append("s.id "); 
+		sb.append("FROM campo pg "); 
+		sb.append("inner join socio s on s.societa_id = pg.societa_id and s.persona_ID = ? "); 
+		sb.append("where pg.id = ? ");
+
+		Integer retValue = 0;
+
+		PreparedStatement stmt = null;
+		try {
+			stmt = getConnection().prepareStatement(sb.toString());
+			stmt.setInt(1, personaId);
+			stmt.setInt(2, campo);
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) 
+				retValue = rs.getInt("id");
+			
+			stmt.close();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (stmt != null)
+				try {
+					stmt.close();
+				} catch (SQLException e) { /* NO ACTION */
+				}
+		}
+		return retValue;
+		
+	}
+
 }
