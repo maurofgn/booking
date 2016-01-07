@@ -1,7 +1,10 @@
 package org.mf.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Hashtable;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,16 +14,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.mf.dao.CampoDao;
 import org.mf.dao.PrenoDao;
 import org.mf.model.Preno;
+import org.mf.modelView.PrenoHourJson;
+import org.mf.modelView.PrenoHoursJson;
 import org.mf.util.Utility;
+
+import com.google.gson.Gson;
 
 
 @WebServlet("/PrenoController")	
 public class PrenoController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-	private static String INSERT_OR_EDIT = "/Preno.jsp";
 	private static String LIST = "/Preno.jsp";
 	private PrenoDao dao;
 	
@@ -31,28 +38,10 @@ public class PrenoController extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		String forward = "";
-		String action = request.getParameter("action");
-		if (action == null)
-			action = "list";
-
-		if (action.equalsIgnoreCase("edit")) {
-			Integer id = getId(request);
-			Preno preno = dao.getById(id);
-			forward = INSERT_OR_EDIT;
-			request.setAttribute("bean", preno);
-/*		} else if (action.equalsIgnoreCase("delete")) {
-			Integer id = getId(request);
-			dao.delete(id);
-			forward = LIST;
-			request.setAttribute("beans", dao.getAll());
-*/		
-		} else if (action.equalsIgnoreCase("list")) {
-			forward = LIST;
-			loadPreno(request);
-		} else {
-			forward = INSERT_OR_EDIT;
-		}
+		
+		String forward = LIST;
+		
+		loadPreno(request, getPersonaId(request));
 
 		RequestDispatcher view = request.getRequestDispatcher(forward);
 		view.forward(request, response);
@@ -61,31 +50,61 @@ public class PrenoController extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		
+		Integer personaId = getPersonaId(request);
+		
 		String action = request.getParameter("action");
-		if (action.equalsIgnoreCase("save")) {
-			System.out.println("save");
+		if (personaId > 0 && action != null && action.equalsIgnoreCase("save")) {
+			String jsonLine = request.getParameter("matrix");
+			savePrenos(personaId, jsonLine);
 		}
 		
-		loadPreno(request);
-		
-		
-		
-		loadPreno(request);
+		loadPreno(request, personaId);
 		
 		RequestDispatcher view = request.getRequestDispatcher(LIST);
 		view.forward(request, response);
 	}
 	
-	private void loadPreno(HttpServletRequest request) {
+	/**
+	 * save prenotazioni
+	 * @param personaId
+	 * @param jsonLine
+	 */
+	private void savePrenos(Integer personaId, String jsonLine) {
 		
-		Integer personaId = Utility.getInteger(request.getParameter("personaId"));
-		if (personaId == 0) {
-			HttpSession session = request.getSession(false);	//false ==> se non esiste non la crea
-			if (session != null)
-				personaId = (Integer)session.getAttribute("userId");
+		if (personaId == 0 || jsonLine == null || jsonLine.isEmpty())
+			return;
+		
+		CampoDao campoDao = new CampoDao();
+		Hashtable<Integer, Integer> campoSocio = new Hashtable<Integer, Integer>();
+		
+		Gson gson = new Gson();  
+		
+		PrenoHoursJson prenoHoursJson = gson.fromJson(jsonLine, PrenoHoursJson.class);
+		
+		List<Preno> prenos = new ArrayList<Preno>();
+		for (int i = 0; i < prenoHoursJson.getHours().length; i++) {
+			PrenoHourJson prenoHourJson = prenoHoursJson.getHours()[i];
+			Integer socio = getSocio(campoDao, campoSocio, prenoHourJson.getCampo(), personaId);
+			prenos.add(new Preno(prenoHourJson, socio, prenoHoursJson.getData()));
 		}
+			
+		dao.save(prenos);
+
 		
-		 
+	}
+
+	private Integer getSocio(CampoDao campoDao, Hashtable<Integer, Integer> campoSocio, int campo, Integer personaId) {
+		Integer retValue = campoSocio.get(campo);
+		if (retValue != null)
+			return retValue;
+		
+		retValue = campoDao.getSocio(campo, personaId);
+		campoSocio.put(campo, retValue);
+		return retValue;
+	}
+
+	private void loadPreno(HttpServletRequest request, Integer personaId) {
+		
 		Date data = Utility.parseDate(request.getParameter("dataPreno"));
 		if (data == null)
 			data = new Date();
@@ -93,8 +112,15 @@ public class PrenoController extends HttpServlet {
 		request.setAttribute("beans", dao.getAll(data, personaId));
 	}
 	
-	private Integer getId(HttpServletRequest request) {
-		return Utility.getInteger(request.getParameter("personaId"));
+	private Integer getPersonaId(HttpServletRequest request) {
+		Integer personaId = Utility.getInteger(request.getParameter("personaId"));
+		if (personaId == 0) {
+			HttpSession session = request.getSession(false);	//false ==> se non esiste non la crea
+			if (session != null)
+				personaId = (Integer)session.getAttribute("userId");
+		}
+		
+		return personaId;
 	}
 	
 }
