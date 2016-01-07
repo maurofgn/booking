@@ -52,6 +52,7 @@ public class PrenoRow implements Comparable<PrenoRow> {
 	
 	public void addOneHour(int hh, int personaId) {
 		if (hh >= primaOra) {
+			preno[hh-primaOra].setHour(hh);
 			preno[hh-primaOra].setPersonaId(personaId);
 			preno[hh-primaOra].setStato(socioId == personaId ? PrenoState.MiaPreno : PrenoState.Occupato);
 		}
