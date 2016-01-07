@@ -2,8 +2,9 @@ package org.mf.modelView;
 
 public class PrenoHour {
 	
-	PrenoState stato;
-	int personaId;
+	private PrenoState stato;
+	private int personaId;
+	private int hour;
 	
 	public PrenoHour() {
 		this(PrenoState.Indisponibile);
@@ -29,7 +30,13 @@ public class PrenoHour {
 	public void setPersonaId(int personaId) {
 		this.personaId = personaId;
 	}
-	
-	
 
+	public void setHour(int hour) {
+		this.hour = hour;
+	}
+
+	public int getHour() {
+		return hour;
+	}
+	
 }
