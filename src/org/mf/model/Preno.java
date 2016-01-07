@@ -2,6 +2,8 @@ package org.mf.model;
 
 import java.util.Date;
 
+import org.mf.modelView.PrenoHourJson;
+
 public class Preno {
 	
 
@@ -10,6 +12,16 @@ public class Preno {
 	private Integer ora;
 	private Integer campoId;
 	private Integer socioId;
+	
+	public Preno() {
+	}
+
+	public Preno(PrenoHourJson prenoHourJson, Integer socioId, Date data) {
+		campoId = prenoHourJson.getCampo();
+		ora = prenoHourJson.getOra();
+		this.socioId = socioId;
+		this.data = data;
+	}
 	
 	public Integer getId() {
 		return id;
