@@ -18,106 +18,54 @@
 
 $(function() {
 	
-    $( "#dataPreno" ).datepicker({ dateFormat: 'dd/mm/yy', minDate: 'today', maxDate: 'today+10d' });
-    
-    $('.oneHourMinus').on('change', function() {
-    	var $checkbox = $(this); 
-		alert("Sprenota "  +  $checkbox.is(':checked') + " ora:" + $checkbox.prop('value') + " campo:" + $checkbox.prop('name'));
-    });
-    
-    $('.oneHourPlus').on('change', function() {
-    	var $checkbox = $(this);
-		alert("Prenota " +  $checkbox.is(':checked') + " ora:" + $checkbox.prop('value') + " campo" + $checkbox.prop('name'));
-     });
-    
+    $("#dataPreno").datepicker({ dateFormat: 'dd/mm/yy', minDate: 'today', maxDate: 'today+10d' });
     
     $("#frmPrenoSend").submit(function (e) {
-    	
-
-    	totalString = "";
-    	
-    	$("#tablePreno tr :input").each(function () {
-    		    //alert(this.type.toLowerCase())
-    		//totalString += this.type.toLowerCase();
-    		    
-    		if(this.type.toLowerCase() == 'hidden') {
-    			totalString += "Campo " +  this.value;
-    		}
-    		
- 		    if(this.type.toLowerCase() == 'checkbox') {
-   	    		
-   	            totalString +=  " ora:" + this.value;
-		    }
- 
-    		//$totalString += i;	//$(this);
-		});
-    	
-// alert($("#chk").length);
-    	
-//     	$("#chk").each(function(){
-// //     	    $(this).find(':input').each(function() {
-//     	    	//totalString += $(this).type.toLowerCase();
-//     	    	totalString += $(this);
-// //     	    });
-//     	});
-    	
-    	
-
-//     	$("#tablePreno").find(':input').each(function() {
-
-// //     	    allInput = $(this).find('input'); //<-- Should return all input elements in that specific form.
-    	    
-// //     	    allInput.each(function(i, value) {
-//     	    	alert("kkkk");
-//      	    	alert($(this).type.toLowerCase());
-
-// // totalString += $(this).type.toLowerCase();
-    	    	
-// //     	    	if($(this).type.toLowerCase() == 'hidden') {
-// //     	            totalString += "Campo " +  $this.prop('value');
-// //     	        }
-// //     	    	if($(this).type.toLowerCase() == 'checkbox') {
-// //     	    		var $checkbox = $(this);
-// //     	            totalString += "Prenota " +  $checkbox.is(':checked') + " ora:" + $checkbox.prop('value') + " campo" + $checkbox.prop('name');
-// //     	        }
-    	    	
-//     	    });
-//     	});
-    	
-    	alert(totalString);
-    	
-    	 
-//     	    $('#tablePreno tr').each(function(i){
-//     	        $(this).children('td').each(function(j){
-//     	        	wordVal = "";
-//     	        	if (j > 0) 
-//     	        		wordVal = ",";
-    	        	
-//     	        	totalString += wordVal;
-    	        	
-    	          
-// //     	            $(this).children('checkbox').children('option').each(function(k){
-// //     	                totalString+= wordVal+(k+1)+','+$(this).html()+'|';
-// //     	            });
-//     	        });
-//     	        totalString = totalString.substring(0,totalString.length-1)+'\n';
-//     	    });
-//     	    console.log(totalString);
-    	
-    	
-//     	alert($('#matrix').val(JSON.stringify(matrix)));
-    	
-//         e.preventDefault(); //prevent default form submit
-//         $.ajax({
-//             url: '@Url.Action("HasJobInProgress", "ClientChoices")/',
-//             data: { id: '@Model.ClientId' },
-//             success: function (data) {
-//                 showMsg(data);
-//             },
-//             cache: false
-//         });
+    	allcheck();
     });
-
+    
+//     $('#test').click(function() {
+//     	allcheck();
+// 	});
+        
+    /* Scorre la tabella tablePreno e per tutti i checkbox estrae le variazioni */
+    function allcheck() {
+    	var allHours = {"data":"", "hours":[]};
+    	allHours.data = document.getElementById('dataPreno').value;
+    	
+    	$("#tablePreno :input").each(function () {
+ 		    if (this.type.toLowerCase() == 'checkbox') {
+   		    	if (! (
+   		    		(this.value == '${PrenoState.MiaPreno}' && this.checked == true ) ||
+   		    		(this.value == '${PrenoState.Libero}' && this.checked == false )
+   		    		)) 
+  		    	{
+   		            var res = this.id.split(",");
+   		            var hh = { "campo": "", "ora": "", "stato": "", "checked": ""};
+   		            hh.campo = res[0];
+   		            hh.ora = res[1];
+   		            hh.stato = this.value;
+   		            hh.checked = this.checked;
+   		         	allHours.hours.push(hh);
+ 		    	}
+		    }
+		});
+     	
+//     	alert(JSON.stringify(allHours));
+    	$('#matrix').val(JSON.stringify(allHours));
+    }
+    
+/*
+	$('.oneHourMinus').on('change', function() {
+    	var $checkbox = $(this); 
+		alert("Sprenota "  +  $checkbox.is(':checked') + " ora:" + $checkbox.prop('value') + " campo:" + $checkbox.prop('name'));
+    }); 
+    
+     $('.oneHourPlus').on('change', function() {
+    	var $checkbox = $(this);
+		alert("Prenota " +  $checkbox.is(':checked') + " ora:" + $checkbox.prop('value') + " campo" + $checkbox.prop('name'));
+     }); 
+*/
     
   });
 
@@ -312,10 +260,8 @@ table.preno td.fondo {
             <c:forEach items="${beans}" var="prenoRow">
                 <tr>
                 	<td class="campo">
-                	<c:out value="${prenoRow.campo.nome}" /> 
-                	
-                	<input type="hidden" value="${prenoRow.campo.nome}"/>
-                	              	
+                	<c:out value="${prenoRow.campo.nome}" />
+<%--                 	<input type="hidden" value="${prenoRow.campo.nome}"/> --%>
                 	</td>
                 	
                 	<td class="fondo">
@@ -323,23 +269,22 @@ table.preno td.fondo {
                 	</td>
                 	
                 	<c:forEach items="${prenoRow.getPreno()}" var="prenoHour" varStatus="loop">
-                	
 <%--                 		${loop.index} --%>            		
 <%--                			<td bgcolor="${bean.color}"> --%>
-
-               			<td class="${prenoHour.stato}" >               			
+               			<td class="${prenoHour.stato}" >
+               			
                			<c:if test="${(prenoHour.stato == PrenoState.Libero) || (prenoHour.stato == PrenoState.MiaPreno)}">
-
                				<input 
-               					class=	<c:choose>
-				    						<c:when test="${prenoHour.getPersonaId() > 0}">"oneHourMinus"</c:when>    
-				    						<c:otherwise>"oneHourPlus"</c:otherwise>
-										</c:choose>
+               					class = <c:choose>
+				    					 <c:when test="${prenoHour.getPersonaId() > 0}">"oneHourMinus"</c:when>    
+				    					 <c:otherwise>"oneHourPlus"</c:otherwise>
+									    </c:choose>
                					type="checkbox" 
-               					id="${loop.index}" 
-               					value="${loop.index}"
+               					id="${prenoRow.campo.id},${loop.index}" 
+               					value="${prenoHour.stato}"
                					name="${prenoRow.campo.id}"
-               					<c:if test="${prenoHour.getPersonaId() > 0}">checked</c:if> 
+               					<c:if test="${prenoHour.getPersonaId() > 0}">checked</c:if>
+	
                				/>
                			</c:if>
 
@@ -351,17 +296,16 @@ table.preno td.fondo {
         </tbody>
     </table>
     </form>
-    <form method="POST" action='PrenoController' id="frmPrenoSend">
-	
+    
+    
+    
+    <form method="POST" enctype="application/json" action='PrenoController' id="frmPrenoSend">
 		<input type="hidden" id="action" name="action" value="save" />
 		<input type="hidden" id="matrix" name="matrix" value="" />
 <!-- 	$('#matrix').val(JSON.stringify(matrix)); -->
 		<input type="submit" value="<fmt:message key="submit" bundle="${lang}" />" />
 	</form>
-    
-    
-    
-    
+
 </c:if>
 
 </body>
