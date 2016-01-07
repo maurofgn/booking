@@ -277,37 +277,63 @@ public class PrenoDao extends Dao {
 	}
 
 	/**
-	 * salva una serie di prenotazioni
-	 * @param prenos
+	 * elimina o salva una serie di prenotazioni
+	 * @param prenosToRemove da eliminare
+	 * @param prenosToInsert da creare
 	 */
-	public void save(List<Preno> prenos) {
+	public void save(List<Preno> prenosToRemove, List<Preno> prenosToInsert) {
 		
-		if (prenos == null || prenos.isEmpty())
-			return;
+		if (prenosToRemove != null && !prenosToRemove.isEmpty()) {
 		
-		StringBuffer sb = new StringBuffer();
-		sb.append("INSERT INTO preno "); 
-		sb.append("(socio_id ,campo_id ,data ,ora) VALUES ");
-		sb.append("(?        ,?        ,?    ,?  ) ");
-		//          1   	  2     	3	  4
-
-		try {
-			PreparedStatement stmt = getConnection().prepareStatement(sb.toString());
+			StringBuffer sb = new StringBuffer();
+			sb.append("DELETE from preno "); 
+			sb.append("where socio_id=? and campo_id=? and data=? and ora=? ");
+			//            			  1   	 		 2     		3	  	  4
+	
+			try {
+				PreparedStatement stmt = getConnection().prepareStatement(sb.toString());
+				
+				for (Preno preno : prenosToRemove) {
+				
+					stmtPara(stmt, 1, Types.INTEGER, preno.getSocioId());
+					stmtPara(stmt, 2, Types.INTEGER, preno.getCampoId());
+					stmtPara(stmt, 3, Types.DATE, new java.sql.Date(preno.getData().getTime()));
+					stmtPara(stmt, 4, Types.INTEGER, preno.getOra());
+	
+					stmt.executeUpdate();
+				}
+				
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
+		
+		if (prenosToInsert != null && !prenosToInsert.isEmpty()) {
 			
-			for (Preno preno : prenos) {
-			
-				stmtPara(stmt, 1, Types.VARCHAR, preno.getSocioId());
-				stmtPara(stmt, 2, Types.INTEGER, preno.getCampoId());
-				stmtPara(stmt, 3, Types.DATE, preno.getData());
-				stmtPara(stmt, 4, Types.INTEGER, preno.getOra());
-
-				stmt.executeUpdate();
-			}
-			
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			
+			StringBuffer sb = new StringBuffer();
+			sb.append("INSERT INTO preno "); 
+			sb.append("(socio_id ,campo_id ,data ,ora) VALUES ");
+			sb.append("(?        ,?        ,?    ,?  ) ");
+			//          1   	  2     	3	  4
+	
+			try {
+				PreparedStatement stmt = getConnection().prepareStatement(sb.toString());
+				
+				for (Preno preno : prenosToInsert) {
+				
+					stmtPara(stmt, 1, Types.INTEGER, preno.getSocioId());
+					stmtPara(stmt, 2, Types.INTEGER, preno.getCampoId());
+					stmtPara(stmt, 3, Types.DATE, new java.sql.Date(preno.getData().getTime()));
+					stmtPara(stmt, 4, Types.INTEGER, preno.getOra());
+	
+					stmt.executeUpdate();
+					//questa insert potrebbe dare errore per eventuali prenotazioni fatte da altri in contemporanea (key-dup)
+				}
+				
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
 	}
 	
 }
