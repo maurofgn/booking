@@ -7,6 +7,8 @@ import java.util.List;
 
 import org.mf.dao.PrenoDao;
 import org.mf.modelView.Fondo;
+import org.mf.modelView.PrenoHour;
+import org.mf.modelView.PrenoState;
 
 public class Campo implements Comparable<Campo> {
 
@@ -167,6 +169,21 @@ public class Campo implements Comparable<Campo> {
 			return -1;
 		
 		return 0;
+	}
+	
+	/**
+	 * 
+	 * @param ora
+	 * @return lo stato del campo nell'ora passata rispetto all'orario del campo
+	 */
+	public PrenoState getStato(int ora) {
+		
+		return 
+				ora < getAperturaOra() ||															//prima dell'apertura
+				(ora >= getIntervalloOra() && ora < getIntervalloOra() + getIntervalloOre()) ||		//durante l'intervallo
+				ora >= getChiusuraOra()																//dopo la chiusura
+				? PrenoState.Indisponibile
+				: PrenoState.Libero;
 	}
 	
 	
