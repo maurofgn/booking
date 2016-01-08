@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.mf.dao.PrenoDao;
 import org.mf.modelView.Fondo;
-import org.mf.modelView.PrenoHour;
 import org.mf.modelView.PrenoState;
 
 public class Campo implements Comparable<Campo> {
