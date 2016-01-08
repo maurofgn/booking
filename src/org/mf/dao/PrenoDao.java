@@ -184,7 +184,7 @@ public class PrenoDao extends Dao {
 					retValue.add(prenoRow);
 				}
 				
-				prenoRow.addOneHour(rs.getInt("ora"), rs.getInt("persona_ID"));
+				prenoRow.reserveOneHour(rs.getInt("ora"), rs.getInt("persona_ID"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
