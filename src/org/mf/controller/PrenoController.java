@@ -23,6 +23,7 @@ import org.mf.modelView.PrenoState;
 import org.mf.util.Utility;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 
 @WebServlet("/PrenoController")	
@@ -78,7 +79,7 @@ public class PrenoController extends HttpServlet {
 		CampoDao campoDao = new CampoDao();
 		Hashtable<Integer, Integer> campoSocio = new Hashtable<Integer, Integer>();
 		
-		Gson gson = new Gson();  
+		Gson gson=  new GsonBuilder().setDateFormat("dd/MM/yyyy").create();
 		
 		PrenoHoursJson prenoHoursJson = gson.fromJson(jsonLine, PrenoHoursJson.class);
 		
@@ -92,7 +93,6 @@ public class PrenoController extends HttpServlet {
 				prenosToRemove.add(preno);
 			else
 				prenosToInsert.add(preno);
-			
 		}
 			
 		dao.save(prenosToRemove, prenosToInsert);
