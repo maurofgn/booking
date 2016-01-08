@@ -26,14 +26,7 @@ public class PrenoRow implements Comparable<PrenoRow> {
 		preno = new PrenoHour[ultimaOra >= primaOra ? ultimaOra-primaOra : 0];
 		
 		for (int i = 0; i < preno.length; i++) {
-			if (i + primaOra < campo.getAperturaOra())
-				preno[i] = new PrenoHour();
-			else if (i + primaOra >=campo.getIntervalloOra() && i + primaOra < campo.getIntervalloOra() + campo.getIntervalloOre())
-				preno[i] = new PrenoHour();
-			else if (i + primaOra >=campo.getChiusuraOra())
-				preno[i] = new PrenoHour();
-			else
-				preno[i] = new PrenoHour(PrenoState.Libero);
+			preno[i] = new PrenoHour(campo.getStato(i + primaOra), i + primaOra);
 		}
 	}
 	
@@ -50,9 +43,13 @@ public class PrenoRow implements Comparable<PrenoRow> {
 		return preno.length;
 	}
 	
-	public void addOneHour(int hh, int personaId) {
+	/**
+	 * 
+	 * @param hh ora assoluta
+	 * @param personaId
+	 */
+	public void reserveOneHour(int hh, int personaId) {
 		if (hh >= primaOra) {
-			preno[hh-primaOra].setHour(hh);
 			preno[hh-primaOra].setPersonaId(personaId);
 			preno[hh-primaOra].setStato(socioId == personaId ? PrenoState.MiaPreno : PrenoState.Occupato);
 		}
