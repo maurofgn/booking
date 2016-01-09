@@ -9,16 +9,16 @@ import org.mf.model.Campo;
 
 public class PrenoRow implements Comparable<PrenoRow> {
 
-	private int socioId;
+	private int personaId;
 	private Campo campo;
 	private Date data;
 	private int primaOra;
 	private int ultimaOra;
 	private PrenoHour[] preno;
 	
-	public PrenoRow(int socioId, Campo campo, Date data, int primaOra, int ultimaOra) {
+	public PrenoRow(int personaId, Campo campo, Date data, int primaOra, int ultimaOra) {
 		super();
-		this.socioId = socioId;
+		this.personaId = personaId;
 		this.campo = campo;
 		this.data = data;
 		this.primaOra = primaOra;
@@ -31,8 +31,8 @@ public class PrenoRow implements Comparable<PrenoRow> {
 	}
 	
 	
-	public int getSocioId() {
-		return socioId;
+	public int getPersonaId() {
+		return personaId;
 	}
 
 	public Date getData() {
@@ -51,7 +51,7 @@ public class PrenoRow implements Comparable<PrenoRow> {
 	public void reserveOneHour(int hh, int personaId) {
 		if (hh >= primaOra) {
 			preno[hh-primaOra].setPersonaId(personaId);
-			preno[hh-primaOra].setStato(socioId == personaId ? PrenoState.MiaPreno : PrenoState.Occupato);
+			preno[hh-primaOra].setStato(this.personaId == personaId ? PrenoState.MiaPreno : PrenoState.Occupato);
 		}
 	}
 
@@ -86,7 +86,7 @@ public class PrenoRow implements Comparable<PrenoRow> {
 //				c[i] = PrenoState.Indisponibile;
 //			else if (preno[i] == 0)
 //				c[i] = PrenoState.Libero;
-//			else if (preno[i] == socioId)
+//			else if (preno[i] == personaId)
 //				c[i] = PrenoState.MiaPreno;
 //			else
 //				c[i] = PrenoState.Occupato;
