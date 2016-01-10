@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.mf.model.Persona;
+import org.mf.model.Societa;
 
 public class PersonaDao extends Dao {
 	
@@ -131,6 +132,62 @@ public class PersonaDao extends Dao {
 
 		return retValue;
 	}
+	
+	/**
+	 * 
+	 * @return il primo ammistratore
+	 */
+	public Persona getOneAmministratore() {
+		Persona retValue = null;
+		
+		try {
+			Statement statement = getConnection().createStatement();
+			ResultSet rs = statement.executeQuery("select * from persona where ruolo = 'A' order by id");
+			if (rs.next()) {
+				retValue = assignBean(rs);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return retValue;
+	}
+	
+	public List<Societa> getSocieta(int personaId) {
+		StringBuffer sb = new StringBuffer();
+		sb.append("select "); 
+		sb.append("s.* "); 
+		sb.append("from socio s "); 
+		sb.append("inner join persona p on p.id = s.persona_id "); 
+		sb.append("where s.persona_id = ? ");
+		
+		List<Societa> retValue = new ArrayList<Societa>();
+		
+		try {
+			PreparedStatement ps = getConnection().prepareStatement(sb.toString());
+			ps.setInt(1, personaId);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				Societa soc = new Societa();
+				
+				soc.setId(rs.getInt("id"));
+				soc.setNome(rs.getString("nome"));
+				soc.setCitta(rs.getString("citta"));
+				soc.setProv(rs.getString("prov"));
+				soc.setIndirizzo(rs.getString("indirizzo"));
+				soc.setCodiceFederale(rs.getString("codiceFederale"));
+				soc.setGiorniRitardoAmmesso(rs.getInt("giorniRitardoAmmesso"));
+				soc.setSite(rs.getString("site"));
+				soc.setMail(rs.getString("mail"));
+				
+				retValue.add(soc);
+			}
+		} catch (SQLException ex) {
+			System.out.println("Error in check() -->" + ex.getMessage());
+		}
+		
+		return retValue;
+	}
+
 
 	public Persona getById(int id) {
 		return (Persona)super.getById(id);
