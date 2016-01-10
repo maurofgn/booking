@@ -143,9 +143,10 @@ public class PersonaDao extends Dao {
 		try {
 			Statement statement = getConnection().createStatement();
 			ResultSet rs = statement.executeQuery("select * from persona where ruolo = 'A' order by id");
-			if (rs.next()) {
-				retValue = assignBean(rs);
-			}
+			if (rs.next()) 
+				retValue = assignBean(rs);				
+			
+			statement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -181,6 +182,7 @@ public class PersonaDao extends Dao {
 				
 				retValue.add(soc);
 			}
+			ps.close();
 		} catch (SQLException ex) {
 			System.out.println("Error in check() -->" + ex.getMessage());
 		}
