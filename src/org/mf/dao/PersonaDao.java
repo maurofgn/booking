@@ -155,10 +155,10 @@ public class PersonaDao extends Dao {
 	public List<Societa> getSocieta(int personaId) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("select "); 
-		sb.append("s.* "); 
+		sb.append("so.* "); 
 		sb.append("from socio s "); 
-		sb.append("inner join persona p on p.id = s.persona_id "); 
-		sb.append("where s.persona_id = ? ");
+		sb.append("inner join societa so on so.id = s.societa_id "); 
+		sb.append("where s.persona_id = ?");
 		
 		List<Societa> retValue = new ArrayList<Societa>();
 		
@@ -174,8 +174,8 @@ public class PersonaDao extends Dao {
 				soc.setCitta(rs.getString("citta"));
 				soc.setProv(rs.getString("prov"));
 				soc.setIndirizzo(rs.getString("indirizzo"));
-				soc.setCodiceFederale(rs.getString("codiceFederale"));
-				soc.setGiorniRitardoAmmesso(rs.getInt("giorniRitardoAmmesso"));
+				soc.setCodiceFederale(rs.getString("codice_Federale"));
+				soc.setGiorniRitardoAmmesso(rs.getInt("giorni_Ritardo_Ammesso"));
 				soc.setSite(rs.getString("site"));
 				soc.setMail(rs.getString("mail"));
 				
