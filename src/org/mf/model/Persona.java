@@ -182,6 +182,4 @@ public class Persona {
 				+ ", nascita=" + nascita + "]";
 	}
 	
-	
-
 }
