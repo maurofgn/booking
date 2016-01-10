@@ -3,16 +3,16 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 
-<c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
-<fmt:setLocale value="${language}" />
-<fmt:setBundle basename="org.mf.i18n.Message" var="lang" />
+<c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session"/>
+<fmt:setLocale value="${language}"/>
+<fmt:setBundle basename="org.mf.i18n.Message" var="lang"/>
 
 <%@ page import="org.mf.modelView.PrenoState" %>
 
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title><fmt:message key="preno.title" bundle="${lang}" /></title>
+        <title><fmt:message key="preno.title" bundle="${lang}"/></title>
         
 <script type="text/javascript">
 
@@ -213,14 +213,11 @@ table.preno td.fondo {
         }
 
 </style>
-
 </head>
 <body>
-
 	<form method="POST" action='PrenoController' name="frmPreno">
-	
 		<div>
-			<label for="dataPreno"><fmt:message key="preno.label.dataPreno" bundle="${lang}" />:</label>
+			<label for="dataPreno"><fmt:message key="preno.label.dataPreno" bundle="${lang}"/>:</label>
 			<input type="text" 
 				<c:choose>
 				    <c:when test="${ruolo=='A'}">""</c:when>    
@@ -228,30 +225,24 @@ table.preno td.fondo {
 				</c:choose>
 				name="dataPreno" 
 				id="dataPreno" 
-				value="<fmt:formatDate pattern="dd/MM/yyyy" value="${dataPreno}" />" 
+				value="<fmt:formatDate pattern="dd/MM/yyyy" value="${dataPreno}"/>" 
 				onchange="this.form.submit()"
 				>
 		</div>
-	
-<%-- 		<input type="submit" value="<fmt:message key="submit" bundle="${lang}" />" /> --%>
+<%-- 		<input type="submit" value="<fmt:message key="submit" bundle="${lang}"/>"/> --%>
 	</form>
-
-
 <c:if test="${empty beans}">
-	<div><fmt:message key="persona.non.tesserata" bundle="${lang}" />
+	<div><fmt:message key="persona.non.tesserata" bundle="${lang}"/>
 	</div>
 </c:if>
-
 <c:if test="${not empty beans}">
-
-<form class="chk" id="chk">
 	<table class="preno" id="tablePreno" border=1>
         <thead>
             <tr>
-               	<th class="campo"><fmt:message key="preno.label.campo" bundle="${lang}" /></th>
-               	<th class="fondo"><fmt:message key="preno.label.fondo" bundle="${lang}" /></th>
+               	<th class="campo"><fmt:message key="preno.label.campo" bundle="${lang}"/></th>
+               	<th class="fondo"><fmt:message key="preno.label.fondo" bundle="${lang}"/></th>
                	<c:forEach items="${beans[0].getPrenoHead()}" var="bean">
-               		<th><c:out value="${bean}" /></th>
+               		<th><c:out value="${bean}"/></th>
                	</c:forEach>
                	
             </tr>
@@ -259,20 +250,10 @@ table.preno td.fondo {
         <tbody>
             <c:forEach items="${beans}" var="prenoRow">
                 <tr>
-                	<td class="campo">
-                	<c:out value="${prenoRow.campo.nome}" />
-<%--                 	<input type="hidden" value="${prenoRow.campo.nome}"/> --%>
-                	</td>
-                	
-                	<td class="fondo">
-                	<fmt:message key="${prenoRow.campo.tipo.keyProperty}" bundle="${lang}" />
-                	</td>
-                	
+                	<td class="campo"><c:out value="${prenoRow.campo.nome}"/></td>
+                	<td class="fondo"><fmt:message key="${prenoRow.campo.tipo.keyProperty}" bundle="${lang}"/></td>
                 	<c:forEach items="${prenoRow.getPreno()}" var="prenoHour" varStatus="loop">
-<%--                 		${loop.index} --%>            		
-<%--                			<td bgcolor="${bean.color}"> --%>
-               			<td class="${prenoHour.stato}" >
-               			
+               			<td class="${prenoHour.stato}">
                			<c:if test="${(prenoHour.stato == PrenoState.Libero) || (prenoHour.stato == PrenoState.MiaPreno)}">
                				<input 
                					class = <c:choose>
@@ -286,26 +267,21 @@ table.preno td.fondo {
                					<c:if test="${prenoHour.getPersonaId() > 0}">checked</c:if>
                				/>
                			</c:if>
-
+               			<c:if test="${prenoHour.stato == PrenoState.Occupato && ruolo=='A'}">
+               				<div><input type="hidden" name="utente" value="<c:out value="${prenoHour.utente}"/>" > </div>
+               			</c:if>
                			</td>
                		</c:forEach>
-                	
                 </tr>
             </c:forEach>
         </tbody>
     </table>
-    </form>
-    
-    
-    
+   
     <form method="POST" enctype="application/json" action='PrenoController' id="frmPrenoSend">
-		<input type="hidden" id="action" name="action" value="save" />
-		<input type="hidden" id="matrix" name="matrix" value="" />
-<!-- 	$('#matrix').val(JSON.stringify(matrix)); -->
-		<input type="submit" value="<fmt:message key="submit" bundle="${lang}" />" />
+		<input type="hidden" id="action" name="action" value="save"/>
+		<input type="hidden" id="matrix" name="matrix" value=""/>
+		<input type="submit" value="<fmt:message key="submit" bundle="${lang}"/>"/>
 	</form>
-
 </c:if>
-
 </body>
 </html>
