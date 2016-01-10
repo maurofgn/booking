@@ -129,6 +129,4 @@ public class Societa {
 				+ ", codiceFederale=" + codiceFederale + "]";
 	}
 
-	
-	
 }
