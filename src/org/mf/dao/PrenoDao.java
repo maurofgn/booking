@@ -156,11 +156,12 @@ public class PrenoDao extends Dao {
 		StringBuffer sb = new StringBuffer();
 		
 		sb.append("SELECT "); 
-		sb.append("pg.id k ,s.persona_ID, pr.ora "); 
+		sb.append("pg.id k ,s.persona_ID, pr.ora, p.utente "); 
 		sb.append("FROM campo pg "); 
 		sb.append("left join ( "); 
 		sb.append("   preno pr "); 
 		sb.append("   inner join socio s on s.id =pr.socio_ID "); 
+		sb.append("   inner join persona p on p.id = s.persona_ID "); 
 		sb.append(") on pr.campo_id = pg.id and pr.data = ? "); 
 		sb.append("where "); 
 		sb.append("pg.societa_id in ( ");
@@ -184,7 +185,7 @@ public class PrenoDao extends Dao {
 					retValue.add(prenoRow);
 				}
 				
-				prenoRow.reserveOneHour(rs.getInt("ora"), rs.getInt("persona_ID"));
+				prenoRow.reserveOneHour(rs.getInt("ora"), rs.getInt("persona_ID"), rs.getString("utente"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
