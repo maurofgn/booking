@@ -5,6 +5,7 @@ public class PrenoHour {
 	private PrenoState stato;
 	private int personaId;
 	private int hour;	//ora assoluta (0-23)
+	private String utente;
 	
 	
 	public PrenoHour(PrenoState stato, int hour) {
@@ -35,6 +36,14 @@ public class PrenoHour {
 
 	public int getHour() {
 		return hour;
+	}
+
+	public String getUtente() {
+		return utente;
+	}
+
+	public void setUtente(String utente) {
+		this.utente = utente;
 	}
 
 	@Override

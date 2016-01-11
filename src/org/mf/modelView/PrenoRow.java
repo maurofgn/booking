@@ -48,10 +48,11 @@ public class PrenoRow implements Comparable<PrenoRow> {
 	 * @param hh ora assoluta
 	 * @param personaId
 	 */
-	public void reserveOneHour(int hh, int personaId) {
+	public void reserveOneHour(int hh, int personaId, String utente) {
 		if (hh >= primaOra) {
 			preno[hh-primaOra].setPersonaId(personaId);
 			preno[hh-primaOra].setStato(this.personaId == personaId ? PrenoState.MiaPreno : PrenoState.Occupato);
+			preno[hh-primaOra].setUtente(utente);
 		}
 	}
 
