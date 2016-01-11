@@ -12,6 +12,8 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.mf.model.Campo;
 import org.mf.model.Preno;
+import org.mf.modelView.Fondo;
+import org.mf.modelView.PrenoList;
 import org.mf.modelView.PrenoRow;
 
 public class PrenoDao extends Dao {
@@ -335,6 +337,102 @@ public class PrenoDao extends Dao {
 					e.printStackTrace();
 				}
 		}
+	}
+	
+	/**
+	 * 
+	 * @param data
+	 * @param nomePersona
+	 * @param cognomePersona
+	 * @param nomeCampo
+	 * @param nomeSocieta
+	 * @return lista di PrenoList
+	 */
+	public List<PrenoList> getPrenoList(Date data, String nomePersona, String cognomePersona, String nomeCampo, String nomeSocieta) {
+		
+		StringBuffer sb = new StringBuffer();
+
+		sb.append("SELECT "); 
+		sb.append("pr.data, "); 
+		sb.append("sa.id societa_id, "); 
+		sb.append("sa.nome societa, "); 
+		sb.append("pr.campo_id, "); 
+		sb.append("pg.nome campo, "); 
+		sb.append("tipo fondo, "); 
+		sb.append("pr.ora, "); 
+		sb.append("so.persona_id, "); 
+		sb.append("pe.nome, "); 
+		sb.append("pe.cognome, "); 
+		sb.append("pe.nascita, "); 
+		sb.append("round(DATEDIFF(curDate(), pe.nascita)/365, 0) eta_day, "); 
+		sb.append("YEAR(curDate()) - YEAR(pe.nascita) eta_year, "); 
+		sb.append("pr.socio_id, "); 
+		sb.append("so.tessera, "); 
+		sb.append("DATEDIFF(curDate(), so.scadenza) gg_due, "); 
+		sb.append("so.scadenza, "); 
+		sb.append("so.anno_inizio "); 
+		sb.append("FROM preno pr "); 
+		sb.append("inner join campo pg on pg.id = pr.campo_id "); 
+		sb.append("inner join socio so on so.id = pr.socio_id "); 
+		sb.append("inner join societa sa on so.societa_id = sa.id "); 
+		sb.append("inner join persona pe on pe.id = so.persona_id "); 
+		sb.append("where "); 
+		sb.append("pr.data = ? "); 
+		
+		if (nomePersona != null && !nomePersona.isEmpty())
+			sb.append("and lower(pe.nome) like ('%" + nomePersona.toLowerCase().replaceAll("'","''") + "r%' ) ");
+		
+		if (cognomePersona != null && !cognomePersona.isEmpty())
+			sb.append("and lower(pe.cognome) like ('%" + cognomePersona.toLowerCase().replaceAll("'","''") + "%') "); 
+			
+		if (nomeCampo != null && !nomeCampo.isEmpty())
+			sb.append("and lower(pg.nome) like lower('%" + nomeCampo.toLowerCase().replaceAll("'","''") + "%') ");
+		
+		if (nomeSocieta != null && !nomeSocieta.isEmpty())
+			sb.append("--and lower(sa.nome) like lower('%" + nomeSocieta.toLowerCase().replaceAll("'","''") + "%') "); 
+		
+		sb.append("order by pr.data, pg.sequenza, pg.id, pr.ora ");
+		
+		List<PrenoList> retValue = new ArrayList<PrenoList>();
+		
+		try {
+			
+			PreparedStatement ps = getConnection().prepareStatement(sb.toString());
+			ps.setDate(1, new java.sql.Date(data != null ? data.getTime() : new Date().getTime()));
+			ResultSet rs = ps.executeQuery();
+			
+			PrenoList prenoRow = null;
+
+			while (rs.next()) {
+				
+				prenoRow = new PrenoList();
+				
+				prenoRow.setData(rs.getDate("data")); 
+				prenoRow.setSocietaId(rs.getInt("societa_Id"));
+				prenoRow.setSocieta(rs.getString("societa")); 
+				prenoRow.setCampoId(rs.getInt("campo_Id"));
+				prenoRow.setCampo(rs.getString("campo"));
+				prenoRow.setFondo(Fondo.fromOrdinal(rs.getInt("fondo"))); 
+				prenoRow.setOra(rs.getInt("ora")); 
+				prenoRow.setPersonaId(rs.getInt("persona_Id"));
+				prenoRow.setNome(rs.getString("nome")); 
+				prenoRow.setCognome(rs.getString("cognome")); 
+				prenoRow.setNascita(rs.getDate("nascita")); 
+				prenoRow.setEtaDay(rs.getInt("eta_Day")); 
+				prenoRow.setEtaYear(rs.getInt("eta_Year")); 
+				prenoRow.setSocioId(rs.getInt("socio_Id"));
+				prenoRow.setTessera(rs.getInt("tessera")); 
+				prenoRow.setGgDue(rs.getInt("gg_Due")); 
+				prenoRow.setScadenza(rs.getDate("scadenza")); 
+				prenoRow.setAnnoInizio(rs.getInt("anno_Inizio"));
+				retValue.add(prenoRow);
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return retValue;
 	}
 	
 }

@@ -30,7 +30,8 @@ import com.google.gson.GsonBuilder;
 public class PrenoController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-	private static String LIST = "/Preno.jsp";
+	private static String PRENOTA = "/Preno.jsp";
+	private static String LIST_PRENO = "/PrenoList.jsp";
 	private PrenoDao dao;
 	
 	public PrenoController() {
@@ -41,9 +42,16 @@ public class PrenoController extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		
-		String forward = LIST;
+		String forward = PRENOTA;
 		
-		loadPreno(request, getPersonaId(request));
+		String action = request.getParameter("action");
+		if (action != null && action.equalsIgnoreCase("PrenoList")) {
+			forward = LIST_PRENO;
+			loadPrenoList(request);
+		} else {
+			forward = PRENOTA;	//default
+			loadPreno(request, getPersonaId(request));
+		}
 
 		RequestDispatcher view = request.getRequestDispatcher(forward);
 		view.forward(request, response);
@@ -62,7 +70,7 @@ public class PrenoController extends HttpServlet {
 		
 		loadPreno(request, personaId);
 		
-		RequestDispatcher view = request.getRequestDispatcher(LIST);
+		RequestDispatcher view = request.getRequestDispatcher(PRENOTA);
 		view.forward(request, response);
 	}
 	
@@ -126,6 +134,20 @@ public class PrenoController extends HttpServlet {
 		}
 		
 		return personaId;
+	}
+	
+	private void loadPrenoList(HttpServletRequest request) {
+		
+		Date data = Utility.parseDate(request.getParameter("dataPreno"));
+		if (data == null)
+			data = new Date();
+		
+		String nomePersona = request.getParameter("nomePersona");
+		String cognomePersona = request.getParameter("cognomePersona");
+		String nomeCampo = request.getParameter("nomeCampo");
+		String nomeSocieta = request.getParameter("nomeSocieta");
+		
+		request.setAttribute("beans", dao.getPrenoList(data, nomePersona, cognomePersona, nomeCampo, nomeSocieta));
 	}
 	
 }
