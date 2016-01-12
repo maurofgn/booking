@@ -40,9 +40,8 @@
                 	<td><c:out value="${bean.campo}" /></td>
 					<td><c:out value="${bean.nome}" /></td>
 					<td><c:out value="${bean.cognome}" /></td>
-					
-					<td><c:out value="${bean.data}" /></td>
-					<td><c:out value="${bean.ora}" /></td>
+					<td><fmt:formatDate pattern="dd/MM/yyyy" value="${bean.data}" /></td>
+					<td align="right"><c:out value="${bean.ora}" /></td>
 <%-- 					
 					<td><c:out value="${bean.prov}" /></td>
 					<td><c:out value="${bean.indirizzo}" /></td>
