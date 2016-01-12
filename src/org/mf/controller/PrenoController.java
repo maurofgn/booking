@@ -148,7 +148,7 @@ public class PrenoController extends HttpServlet {
 		HttpSession session = request.getSession(false);	//false ==> se non esiste non la crea
 		if (session != null) {
 			ruolo = (String) session.getAttribute("ruolo");
-			if (ruolo != "A") 
+			if (!"A".equalsIgnoreCase(ruolo)) 
 				personaId = (Integer)session.getAttribute("userId");
 		}
 
