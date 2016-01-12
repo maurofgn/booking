@@ -8,13 +8,13 @@ public class Socio {
 	private Integer tessera;
 	private Integer annoInizio;
 	private Date scadenza;
-	private Societa societa;
-	private Persona persona;
+	private Integer societaId;
+	private Integer personaId;
 	
-	public Integer getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	public Integer getTessera() {
@@ -35,26 +35,36 @@ public class Socio {
 	public void setScadenza(Date scadenza) {
 		this.scadenza = scadenza;
 	}
-	public Societa getSocieta() {
-		return societa;
+	public Integer getSocietaId() {
+		return societaId;
 	}
-	public void setSocieta(Societa societa) {
-		this.societa = societa;
+	public void setSocietaId(Integer societaId) {
+		this.societaId = societaId;
 	}
-	public Persona getPersona() {
-		return persona;
+	public Integer getPersonaId() {
+		return personaId;
 	}
-	public void setPersona(Persona persona) {
-		this.persona = persona;
+	public void setPersonaId(Integer personaId) {
+		this.personaId = personaId;
 	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((societa == null) ? 0 : societa.hashCode());
+		result = prime * result
+				+ ((annoInizio == null) ? 0 : annoInizio.hashCode());
+		result = prime * result + id;
+		result = prime * result
+				+ ((personaId == null) ? 0 : personaId.hashCode());
+		result = prime * result
+				+ ((scadenza == null) ? 0 : scadenza.hashCode());
+		result = prime * result
+				+ ((societaId == null) ? 0 : societaId.hashCode());
 		result = prime * result + ((tessera == null) ? 0 : tessera.hashCode());
 		return result;
 	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -64,10 +74,27 @@ public class Socio {
 		if (getClass() != obj.getClass())
 			return false;
 		Socio other = (Socio) obj;
-		if (societa == null) {
-			if (other.societa != null)
+		if (annoInizio == null) {
+			if (other.annoInizio != null)
 				return false;
-		} else if (!societa.equals(other.societa))
+		} else if (!annoInizio.equals(other.annoInizio))
+			return false;
+		if (id != other.id)
+			return false;
+		if (personaId == null) {
+			if (other.personaId != null)
+				return false;
+		} else if (!personaId.equals(other.personaId))
+			return false;
+		if (scadenza == null) {
+			if (other.scadenza != null)
+				return false;
+		} else if (!scadenza.equals(other.scadenza))
+			return false;
+		if (societaId == null) {
+			if (other.societaId != null)
+				return false;
+		} else if (!societaId.equals(other.societaId))
 			return false;
 		if (tessera == null) {
 			if (other.tessera != null)
@@ -78,11 +105,9 @@ public class Socio {
 	}
 	@Override
 	public String toString() {
-		return "Socio [tessera=" + tessera + ", annoInizio=" + annoInizio
-				+ ", scadenza=" + scadenza + ", societa=" + societa
-				+ ", persona=" + persona + "]";
+		return "Socio [id=" + id + ", tessera=" + tessera + ", annoInizio="
+				+ annoInizio + ", scadenza=" + scadenza + ", societaId="
+				+ societaId + ", personaId=" + personaId + "]";
 	}
 	
-	
-
 }
