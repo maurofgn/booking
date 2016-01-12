@@ -281,6 +281,7 @@ table.preno td.fondo {
 		<input type="hidden" id="action" name="action" value="save"/>
 		<input type="hidden" id="matrix" name="matrix" value=""/>
 		<input type="submit" value="<fmt:message key="submit" bundle="${lang}"/>"/>
+		<a href="PrenoController?action=PrenoList"><fmt:message key="preno.action.PrenoList" bundle="${lang}"/></a>
 	</form>
 </c:if>
 </body>
