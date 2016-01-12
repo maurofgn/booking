@@ -61,6 +61,11 @@
             </c:forEach>
         </tbody>
     </table>
-<!--     <p><a href="PersonaController?action=insert">Add</a></p> -->
+    
+<%--     <fmt:message key="preno.action.Preno" bundle="${lang}"/> --%>
+
+<%-- 	<p><a href="<%=request.getContextPath()%>/PrenoController"><fmt:message key="preno.action.Preno" bundle="${lang}"/></a></p> --%>
+    <p><a href="<%=request.getContextPath()%>/PrenoController">Prenotazioni</a></p>
+
 </body>
 </html>

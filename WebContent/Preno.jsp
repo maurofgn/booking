@@ -215,6 +215,7 @@ table.preno td.fondo {
 </style>
 </head>
 <body>
+
 	<form method="POST" action='PrenoController' name="frmPreno">
 		<div>
 			<label for="dataPreno"><fmt:message key="preno.label.dataPreno" bundle="${lang}"/>:</label>
@@ -231,6 +232,7 @@ table.preno td.fondo {
 		</div>
 <%-- 		<input type="submit" value="<fmt:message key="submit" bundle="${lang}"/>"/> --%>
 	</form>
+
 <c:if test="${empty beans}">
 	<div><fmt:message key="persona.non.tesserata" bundle="${lang}"/>
 	</div>
@@ -276,13 +278,16 @@ table.preno td.fondo {
             </c:forEach>
         </tbody>
     </table>
-   
+    
+    <div>	
     <form method="POST" enctype="application/json" action='PrenoController' id="frmPrenoSend">
 		<input type="hidden" id="action" name="action" value="save"/>
 		<input type="hidden" id="matrix" name="matrix" value=""/>
 		<input type="submit" value="<fmt:message key="submit" bundle="${lang}"/>"/>
-		<a href="PrenoController?action=PrenoList"><fmt:message key="preno.action.PrenoList" bundle="${lang}"/></a>
+		<a href="<%=request.getContextPath()%>/PrenoController?action=PrenoList"><fmt:message key="preno.action.PrenoList" bundle="${lang}"/></a>
 	</form>
+    </div>	
+   
 </c:if>
 </body>
 </html>
