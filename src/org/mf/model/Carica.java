@@ -6,13 +6,13 @@ public class Carica {
 
 	private int id;
 	private Cariche tipo;
-	private Societa societa;
-	private Persona persona;
+	private Integer societaId;
+	private Integer personaId;
 	
-	public Integer getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	public Cariche getTipo() {
@@ -21,24 +21,27 @@ public class Carica {
 	public void setTipo(Cariche tipo) {
 		this.tipo = tipo;
 	}
-	public Societa getSocieta() {
-		return societa;
+	public Integer getSocietaId() {
+		return societaId;
 	}
-	public void setSocieta(Societa societa) {
-		this.societa = societa;
+	public void setSocietaId(Integer societaId) {
+		this.societaId = societaId;
 	}
-	public Persona getPersona() {
-		return persona;
+	public Integer getPersonaId() {
+		return personaId;
 	}
-	public void setPersona(Persona persona) {
-		this.persona = persona;
+	public void setPersonaId(Integer personaId) {
+		this.personaId = personaId;
 	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((persona == null) ? 0 : persona.hashCode());
-		result = prime * result + ((societa == null) ? 0 : societa.hashCode());
+		result = prime * result + id;
+		result = prime * result
+				+ ((personaId == null) ? 0 : personaId.hashCode());
+		result = prime * result
+				+ ((societaId == null) ? 0 : societaId.hashCode());
 		result = prime * result + ((tipo == null) ? 0 : tipo.hashCode());
 		return result;
 	}
@@ -51,28 +54,27 @@ public class Carica {
 		if (getClass() != obj.getClass())
 			return false;
 		Carica other = (Carica) obj;
-		if (persona == null) {
-			if (other.persona != null)
-				return false;
-		} else if (!persona.equals(other.persona))
+		if (id != other.id)
 			return false;
-		if (societa == null) {
-			if (other.societa != null)
+		if (personaId == null) {
+			if (other.personaId != null)
 				return false;
-		} else if (!societa.equals(other.societa))
+		} else if (!personaId.equals(other.personaId))
 			return false;
-		if (tipo == null) {
-			if (other.tipo != null)
+		if (societaId == null) {
+			if (other.societaId != null)
 				return false;
-		} else if (!tipo.equals(other.tipo))
+		} else if (!societaId.equals(other.societaId))
+			return false;
+		if (tipo != other.tipo)
 			return false;
 		return true;
 	}
-	
 	@Override
 	public String toString() {
-		return "Carica [tipo=" + tipo + ", persona=" + persona + "]";
-	}	
+		return "Carica [tipo=" + tipo + ", societaId=" + societaId
+				+ ", personaId=" + personaId + "]";
+	}
 	
-	
+
 }
