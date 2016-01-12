@@ -83,10 +83,10 @@ public class Campo implements Comparable<Campo> {
 	public void setSequenza(Integer sequenza) {
 		this.sequenza = sequenza;
 	}
-	public Integer getSocieta_Id() {
+	public Integer getSocietaId() {
 		return societa_Id;
 	}
-	public void setSocieta_Id(Integer societa_Id) {
+	public void setSocietaId(Integer societa_Id) {
 		this.societa_Id = societa_Id;
 	}
 
