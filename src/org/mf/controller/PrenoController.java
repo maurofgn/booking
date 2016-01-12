@@ -136,8 +136,22 @@ public class PrenoController extends HttpServlet {
 		return personaId;
 	}
 	
+	/**
+	 * lista delle prenotazioni
+	 * se l'utente ha il ruolo amministratore, allora si usano i parametri data, nome, cognome, campo e società
+	 * se l'utente non ha il ruolo amministratore, allora la data è sempre maggiore o uguale alla corrente e si seleziona solo per id persona di login
+	 * @param request
+	 */
 	private void loadPrenoList(HttpServletRequest request) {
-		
+		String ruolo = "A";
+		Integer personaId = 0;
+		HttpSession session = request.getSession(false);	//false ==> se non esiste non la crea
+		if (session != null) {
+			ruolo = (String) session.getAttribute("ruolo");
+			if (ruolo != "A") 
+				personaId = (Integer)session.getAttribute("userId");
+		}
+
 		Date data = Utility.parseDate(request.getParameter("dataPreno"));
 		if (data == null)
 			data = new Date();
@@ -147,7 +161,7 @@ public class PrenoController extends HttpServlet {
 		String nomeCampo = request.getParameter("nomeCampo");
 		String nomeSocieta = request.getParameter("nomeSocieta");
 		
-		request.setAttribute("beans", dao.getPrenoList(data, nomePersona, cognomePersona, nomeCampo, nomeSocieta));
+		request.setAttribute("beans", dao.getPrenoList(personaId, data, nomePersona, cognomePersona, nomeCampo, nomeSocieta));
 	}
 	
 }

@@ -348,7 +348,7 @@ public class PrenoDao extends Dao {
 	 * @param nomeSocieta
 	 * @return lista di PrenoList
 	 */
-	public List<PrenoList> getPrenoList(Date data, String nomePersona, String cognomePersona, String nomeCampo, String nomeSocieta) {
+	public List<PrenoList> getPrenoList(Integer personaId, Date data, String nomePersona, String cognomePersona, String nomeCampo, String nomeSocieta) {
 		
 		StringBuffer sb = new StringBuffer();
 
@@ -377,19 +377,25 @@ public class PrenoDao extends Dao {
 		sb.append("inner join societa sa on so.societa_id = sa.id "); 
 		sb.append("inner join persona pe on pe.id = so.persona_id "); 
 		sb.append("where "); 
-		sb.append("pr.data = ? "); 
 		
-		if (nomePersona != null && !nomePersona.isEmpty())
-			sb.append("and lower(pe.nome) like ('%" + nomePersona.toLowerCase().replaceAll("'","''") + "r%' ) ");
-		
-		if (cognomePersona != null && !cognomePersona.isEmpty())
-			sb.append("and lower(pe.cognome) like ('%" + cognomePersona.toLowerCase().replaceAll("'","''") + "%') "); 
+		if (personaId > 0) {
+			sb.append("so.persona_id = " + personaId + " "); 
+			sb.append("and pr.data >= curDate() ");
+		} else {
+			sb.append("pr.data = ? "); 
 			
-		if (nomeCampo != null && !nomeCampo.isEmpty())
-			sb.append("and lower(pg.nome) like lower('%" + nomeCampo.toLowerCase().replaceAll("'","''") + "%') ");
-		
-		if (nomeSocieta != null && !nomeSocieta.isEmpty())
-			sb.append("--and lower(sa.nome) like lower('%" + nomeSocieta.toLowerCase().replaceAll("'","''") + "%') "); 
+			if (nomePersona != null && !nomePersona.isEmpty())
+				sb.append("and lower(pe.nome) like ('%" + nomePersona.toLowerCase().replaceAll("'","''") + "r%' ) ");
+			
+			if (cognomePersona != null && !cognomePersona.isEmpty())
+				sb.append("and lower(pe.cognome) like ('%" + cognomePersona.toLowerCase().replaceAll("'","''") + "%') "); 
+				
+			if (nomeCampo != null && !nomeCampo.isEmpty())
+				sb.append("and lower(pg.nome) like lower('%" + nomeCampo.toLowerCase().replaceAll("'","''") + "%') ");
+			
+			if (nomeSocieta != null && !nomeSocieta.isEmpty())
+				sb.append("--and lower(sa.nome) like lower('%" + nomeSocieta.toLowerCase().replaceAll("'","''") + "%') "); 
+		}
 		
 		sb.append("order by pr.data, pg.sequenza, pg.id, pr.ora ");
 		
@@ -398,7 +404,10 @@ public class PrenoDao extends Dao {
 		try {
 			
 			PreparedStatement ps = getConnection().prepareStatement(sb.toString());
-			ps.setDate(1, new java.sql.Date(data != null ? data.getTime() : new Date().getTime()));
+			if (personaId <= 0) {
+				ps.setDate(1, new java.sql.Date(data != null ? data.getTime() : new Date().getTime()));
+			}
+			
 			ResultSet rs = ps.executeQuery();
 			
 			PrenoList prenoRow = null;
