@@ -60,7 +60,7 @@ public class CampoDao extends Dao {
 			stmtPara(stmt, 6, Types.INTEGER, campo.getChiusuraOra());
 			stmtPara(stmt, 7, Types.INTEGER, campo.getIntervalloOra());
 			stmtPara(stmt, 8, Types.INTEGER, campo.getIntervalloOre());
-			stmtPara(stmt, 9, Types.INTEGER, campo.getSocieta_Id());
+			stmtPara(stmt, 9, Types.INTEGER, campo.getSocietaId());
 			stmtPara(stmt, 10, Types.INTEGER, campo.getSequenza());
 
 			stmt.executeUpdate();
@@ -99,7 +99,7 @@ public class CampoDao extends Dao {
 			stmtPara(stmt, 6, Types.INTEGER, campo.getChiusuraOra());
 			stmtPara(stmt, 7, Types.INTEGER, campo.getIntervalloOra());
 			stmtPara(stmt, 8, Types.INTEGER, campo.getIntervalloOre());
-			stmtPara(stmt, 9, Types.INTEGER, campo.getSocieta_Id());
+			stmtPara(stmt, 9, Types.INTEGER, campo.getSocietaId());
 			stmtPara(stmt, 10, Types.INTEGER, campo.getSequenza());
 
 			stmtPara(stmt, 11, Types.INTEGER, campo.getId());
@@ -143,7 +143,7 @@ public class CampoDao extends Dao {
 		retValue.setChiusuraOra(rs.getInt("chiusura_Ora"));
 		retValue.setIntervalloOra(rs.getInt("intervallo_Ora"));
 		retValue.setIntervalloOre(rs.getInt("intervallo_Ore"));
-		retValue.setSocieta_Id(rs.getInt("societa_Id"));
+		retValue.setSocietaId(rs.getInt("societa_Id"));
 		retValue.setSequenza(rs.getInt("sequenza"));
 		
 		return retValue;
