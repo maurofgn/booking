@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 import org.mf.dao.SocietaDao;
 import org.mf.model.Societa;
 import org.mf.util.Utility;
@@ -29,7 +28,7 @@ public class SocietaController extends HttpServlet {
      */
     public SocietaController() {
         super();
-        // TODO Auto-generated constructor stub
+        dao = new SocietaDao();
     }
 
 	/**
@@ -66,7 +65,8 @@ public class SocietaController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-Integer id = getId(request);
+		
+		Integer id = getId(request);
 		
 		Societa retValue = new Societa();
 		
@@ -76,10 +76,10 @@ Integer id = getId(request);
 		retValue.setProv(request.getParameter("prov"));
 		retValue.setIndirizzo(request.getParameter("indirizzo"));
 		retValue.setCodiceFederale(request.getParameter("codiceFederale"));
-		//retValue.setGiorniRitardoAmmesso(request.getParameter("giorniRitardoAmmesso"));
+		retValue.setGiorniRitardoAmmesso(Utility.parseInteger(request.getParameter("giorniRitardoAmmesso")));
 		retValue.setSite(request.getParameter("site"));
 		retValue.setMail(request.getParameter("mail"));
-		//retValue.setPersona(request.getParameter("persona"));
+		retValue.setPersonaId(Utility.parseInteger(request.getParameter("personaId")));
 		
 		if (id == null || id == 0) {
 			dao.add(retValue);
@@ -95,6 +95,5 @@ Integer id = getId(request);
 	private Integer getId(HttpServletRequest request) {
 		return Utility.getInteger(request.getParameter("id"));
 	}
-
 
 }
