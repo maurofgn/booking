@@ -9,6 +9,10 @@ import java.util.Random;
 
 public class Utility {
 	
+	public static Integer parseInteger(String i) {
+		return getInteger(i);
+	}
+	
 	public static Integer getInteger(String i) {
 		
 		Integer retValue;
@@ -19,6 +23,7 @@ public class Utility {
 		}
 		return retValue;
 	}
+	
 	
 	public static Date parseDate(String s) {
 		Date retValue = null;
