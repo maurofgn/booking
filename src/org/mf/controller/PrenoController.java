@@ -32,6 +32,7 @@ public class PrenoController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static String PRENOTA = "/Preno.jsp";
 	private static String LIST_PRENO = "/PrenoList.jsp";
+	private static String LIST_PRENO_PARA = "/PrenoListPara.jsp";
 	private PrenoDao dao;
 	
 	public PrenoController() {
@@ -46,8 +47,16 @@ public class PrenoController extends HttpServlet {
 		
 		String action = request.getParameter("action");
 		if (action != null && action.equalsIgnoreCase("PrenoList")) {
-			forward = LIST_PRENO;
-			loadPrenoList(request);
+			
+			String ruolo = getRuolo(request);
+			
+			if ("A".equalsIgnoreCase(ruolo)) {
+				forward = LIST_PRENO_PARA;	//form x richiesta parametri x selezione delle prenotazioni 
+				request.setAttribute("action", "PrenoList");
+			} else {
+				forward = LIST_PRENO;
+				loadPrenoList(request, ruolo);
+			}
 		} else {
 			forward = PRENOTA;	//default
 			loadPreno(request, getPersonaId(request));
@@ -61,6 +70,7 @@ public class PrenoController extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		
 		Integer personaId = getPersonaId(request);
+		String forward = PRENOTA;
 		
 		String action = request.getParameter("action");
 		if (personaId > 0 && action != null && action.equalsIgnoreCase("save")) {
@@ -68,9 +78,17 @@ public class PrenoController extends HttpServlet {
 			savePrenos(personaId, jsonLine);
 		}
 		
-		loadPreno(request, personaId);
+		if (action != null && action.equalsIgnoreCase("PrenoList")) {
+			String ruolo = getRuolo(request);
+			forward = LIST_PRENO;
+			loadPrenoList(request, ruolo);
+		}
+		else {
+			forward = PRENOTA;
+			loadPreno(request, personaId);
+		}
 		
-		RequestDispatcher view = request.getRequestDispatcher(PRENOTA);
+		RequestDispatcher view = request.getRequestDispatcher(forward);
 		view.forward(request, response);
 	}
 	
@@ -136,32 +154,40 @@ public class PrenoController extends HttpServlet {
 		return personaId;
 	}
 	
+	private String getRuolo(HttpServletRequest request) {
+		HttpSession session = request.getSession(false);	//false ==> se non esiste non la crea
+		return session != null ? (String)session.getAttribute("ruolo") : null;
+	}
+	
 	/**
 	 * lista delle prenotazioni
 	 * se l'utente ha il ruolo amministratore, allora si usano i parametri data, nome, cognome, campo e società
 	 * se l'utente non ha il ruolo amministratore, allora la data è sempre maggiore o uguale alla corrente e si seleziona solo per id persona di login
 	 * @param request
 	 */
-	private void loadPrenoList(HttpServletRequest request) {
-		String ruolo = "A";
-		Integer personaId = 0;
-		HttpSession session = request.getSession(false);	//false ==> se non esiste non la crea
-		if (session != null) {
-			ruolo = (String) session.getAttribute("ruolo");
-			if (!"A".equalsIgnoreCase(ruolo)) 
-				personaId = (Integer)session.getAttribute("userId");
-		}
+	private void loadPrenoList(HttpServletRequest request, String ruolo) {
+//		String ruolo = getRuolo(request);
+		
+//		HttpSession session = request.getSession(false);	//false ==> se non esiste non la crea
+//		if (session != null) {
+//			ruolo = (String) session.getAttribute("ruolo");
+//			if (!"A".equalsIgnoreCase(ruolo)) 
+//				personaId = (Integer)session.getAttribute("userId");
+//		}
 
-		Date data = Utility.parseDate(request.getParameter("dataPreno"));
-		if (data == null)
-			data = new Date();
+		if ("A".equalsIgnoreCase(ruolo)) {
+			Date data = Utility.parseDate(request.getParameter("dataPreno"));
+//			if (data == null)
+//				data = new Date();
+			String nomePersona = request.getParameter("nomePersona");
+			String cognomePersona = request.getParameter("cognomePersona");
+			String nomeCampo = request.getParameter("nomeCampo");
+			String nomeSocieta = request.getParameter("nomeSocieta");
+			request.setAttribute("beans", dao.getPrenoList(0, data, nomePersona, cognomePersona, nomeCampo, nomeSocieta));
+		} else {
+			request.setAttribute("beans", dao.getPrenoList(getPersonaId(request)));
+		}
 		
-		String nomePersona = request.getParameter("nomePersona");
-		String cognomePersona = request.getParameter("cognomePersona");
-		String nomeCampo = request.getParameter("nomeCampo");
-		String nomeSocieta = request.getParameter("nomeSocieta");
-		
-		request.setAttribute("beans", dao.getPrenoList(personaId, data, nomePersona, cognomePersona, nomeCampo, nomeSocieta));
 	}
 	
 }

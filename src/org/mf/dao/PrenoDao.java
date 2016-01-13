@@ -348,6 +348,11 @@ public class PrenoDao extends Dao {
 	 * @param nomeSocieta
 	 * @return lista di PrenoList
 	 */
+	public List<PrenoList> getPrenoList(Integer personaId) {
+	
+		return getPrenoList(personaId, null, null, null, null, null);
+	}
+	
 	public List<PrenoList> getPrenoList(Integer personaId, Date data, String nomePersona, String cognomePersona, String nomeCampo, String nomeSocieta) {
 		
 		StringBuffer sb = new StringBuffer();
@@ -382,10 +387,13 @@ public class PrenoDao extends Dao {
 			sb.append("so.persona_id = " + personaId + " "); 
 			sb.append("and pr.data >= curDate() ");
 		} else {
-			sb.append("pr.data = ? "); 
+			if (data != null)
+				sb.append("pr.data = ? ");
+			else
+				sb.append("pr.data >= curDate() ");
 			
 			if (nomePersona != null && !nomePersona.isEmpty())
-				sb.append("and lower(pe.nome) like ('%" + nomePersona.toLowerCase().replaceAll("'","''") + "r%' ) ");
+				sb.append("and lower(pe.nome) like ('%" + nomePersona.toLowerCase().replaceAll("'","''") + "%' ) ");
 			
 			if (cognomePersona != null && !cognomePersona.isEmpty())
 				sb.append("and lower(pe.cognome) like ('%" + cognomePersona.toLowerCase().replaceAll("'","''") + "%') "); 
@@ -404,7 +412,7 @@ public class PrenoDao extends Dao {
 		try {
 			
 			PreparedStatement ps = getConnection().prepareStatement(sb.toString());
-			if (personaId <= 0) {
+			if (personaId <= 0 && data != null) {
 				ps.setDate(1, new java.sql.Date(data != null ? data.getTime() : new Date().getTime()));
 			}
 			
