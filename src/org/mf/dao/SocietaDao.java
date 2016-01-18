@@ -135,8 +135,8 @@ Societa assignBean(ResultSet rs) throws SQLException {
 	retValue.setCitta(rs.getString("citta"));
 	retValue.setProv(rs.getString("prov"));
 	retValue.setIndirizzo(rs.getString("indirizzo"));
-	retValue.setCodiceFederale(rs.getString("codiceFederale"));
-	retValue.setGiorniRitardoAmmesso(rs.getInt("giorniRitardoAmmesso"));
+	retValue.setCodiceFederale(rs.getString("codice_Federale"));
+	retValue.setGiorniRitardoAmmesso(rs.getInt("giorni_Ritardo_Ammesso"));
 	retValue.setSite(rs.getString("site"));
 	retValue.setMail(rs.getString("mail"));
 	//retValue.setPersona(rs.getString("persona"));
