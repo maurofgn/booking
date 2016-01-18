@@ -10,6 +10,8 @@ public class Socio {
 	private Date scadenza;
 	private Integer societaId;
 	private Integer personaId;
+	private Persona persona;
+	private Societa societa;
 	
 	public int getId() {
 		return id;
@@ -48,6 +50,20 @@ public class Socio {
 		this.personaId = personaId;
 	}
 	
+	public void setPersona(Persona persona) {
+		this.persona = persona;
+	}
+	public Persona getPersona() {
+		return persona;
+	}
+	
+	public void setSocieta(Societa societa) {
+		this.societa = societa;
+	}
+	public Societa getSocieta() {
+		return societa;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

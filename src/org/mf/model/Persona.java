@@ -2,7 +2,7 @@ package org.mf.model;
 
 import java.util.Date;
 
-public class Persona {
+public class Persona implements Comparable<Persona> {
 
 	private Integer id;
 	private String nome;
@@ -31,6 +31,12 @@ public class Persona {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+	
+	public String getNomeCompleto() {
+		return nome + " " + cognome;
+	}
+
+	
 	public String getCognome() {
 		return cognome;
 	}
@@ -180,6 +186,14 @@ public class Persona {
 				+ citta + ", prov=" + prov + ", indirizzo=" + indirizzo
 				+ ", telefono=" + telefono + ", codFisc=" + codFisc
 				+ ", nascita=" + nascita + "]";
+	}
+	@Override
+	public int compareTo(Persona o) {
+		
+		int r = nome.compareToIgnoreCase(o.nome);
+		if (r != 0)
+			return r;
+		return id-o.id;
 	}
 	
 }

@@ -1,6 +1,6 @@
 package org.mf.model;
 
-public class Societa {
+public class Societa implements Comparable<Societa> {
 
 	private Integer id;
 	private String nome;
@@ -160,6 +160,14 @@ public class Societa {
 	public String toString() {
 		return "Societa [nome=" + nome + ", citta=" + citta + ", prov=" + prov
 				+ "]";
+	}
+	@Override
+	public int compareTo(Societa o) {
+		
+		int r = nome.compareToIgnoreCase(o.nome);
+		if (r != 0)
+			return r;
+		return id-o.id;
 	}
 	
 
