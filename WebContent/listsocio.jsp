@@ -27,11 +27,11 @@
                 <tr>
                 	<td>
                 	<a href="SocioController?action=edit&id=<c:out value="${bean.id}"/>">
-                	<c:out value="${bean.personaId}" /></a></td>
-                	<td><c:out value="${bean.annoInizio}" /></td>
-					<td><c:out value="${bean.scadenza}" /></td>
-					<td><c:out value="${bean.societaId}" /></td>
-		 			<td><c:out value="${bean.tessera}" /></td>
+                	<c:out value="${bean.persona.nomeCompleto}" /></a></td>
+                	<td align="center"><c:out value="${bean.annoInizio}" /></td>
+					<td align="center"><fmt:formatDate pattern="dd/MM/yyyy" value="${bean.scadenza}"/></td>
+					<td><c:out value="${bean.societa.nome}" /></td>
+		 			<td align="center"><c:out value="${bean.tessera}" /></td>
 					
 				</tr>
             </c:forEach>
