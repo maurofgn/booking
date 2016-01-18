@@ -59,6 +59,8 @@ if (session.getAttribute("userId") != null) {
 				    </button>
 				    <ul class="dropdown-menu">
 				      <li><a href="<%=request.getContextPath()%>/PersonaController">Persone</a></li>
+				      <li><a href="<%=request.getContextPath()%>/SocioController">Socio</a></li>
+				      <li><a href="<%=request.getContextPath()%>/SocietaController">Società</a></li>
 				      <li><a href="<%=request.getContextPath()%>/index.jsp">First Page</a></li>
 				      <li><a href="<%=request.getContextPath()%>/help/Home.html" target="_blank">Help</a></li>
 				    </ul>
