@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.mf.dao.PersonaDao;
 import org.mf.dao.SocietaDao;
 import org.mf.model.Societa;
 import org.mf.util.Utility;
@@ -45,6 +46,8 @@ public class SocietaController extends HttpServlet {
 			Societa societa = dao.getById(id);
 			forward = INSERT_OR_EDIT;
 			request.setAttribute("bean", societa);
+			setPersoneList(request);
+
 		} else if (action.equalsIgnoreCase("delete")) {
 			Integer id = getId(request);
 			dao.delete(id);
@@ -55,6 +58,7 @@ public class SocietaController extends HttpServlet {
 			request.setAttribute("beans", dao.getAll());
 		} else {
 			forward = INSERT_OR_EDIT;
+			setPersoneList(request);
 		}
 
 		RequestDispatcher view = request.getRequestDispatcher(forward);
@@ -94,6 +98,10 @@ public class SocietaController extends HttpServlet {
 	
 	private Integer getId(HttpServletRequest request) {
 		return Utility.getInteger(request.getParameter("id"));
+	}
+	
+	private void setPersoneList(HttpServletRequest request) {
+		request.setAttribute("personeList", new PersonaDao().getAllOrdered());	//tutte le persone ordinate secondo l'ordine definito in Persona
 	}
 
 }
