@@ -28,7 +28,7 @@ public class SocioDao extends Dao {
 
 	public void check(Socio socio) {
 		try {
-			PreparedStatement ps = getConnection().prepareStatement("select nome from socio where id = ?");
+			PreparedStatement ps = getConnection().prepareStatement("select * from socio where id = ?");
 			ps.setInt(1, socio.getId());
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
@@ -74,7 +74,7 @@ public class SocioDao extends Dao {
 		sb.append("scadenza=?, "); 			//3
 		sb.append("societa_id=?, "); 		//4
 		sb.append("persona_id=? "); 		//5
-		sb.append("where id=?, "); 			//6
+		sb.append("where id=? "); 			//6
 
 		try {
 			
@@ -82,7 +82,7 @@ public class SocioDao extends Dao {
 			
 			stmtPara(stmt, 1, Types.INTEGER, socio.getTessera());
 			stmtPara(stmt, 2, Types.INTEGER, socio.getAnnoInizio());
-			stmtPara(stmt, 3, Types.DATE, socio.getScadenza());
+			stmtPara(stmt, 3, Types.DATE, new java.sql.Date(socio.getScadenza().getTime()));
 			stmtPara(stmt, 4, Types.INTEGER, socio.getSocietaId());
 			stmtPara(stmt, 5, Types.INTEGER, socio.getPersonaId());
 			stmtPara(stmt, 6, Types.INTEGER, socio.getId());
