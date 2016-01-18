@@ -13,21 +13,29 @@ import org.mf.dao.SocioDao;
 import org.mf.model.Socio;
 import org.mf.util.Utility;
 
-@WebServlet("/SocioController")	
+/**
+ * Servlet implementation class SocioController
+ */
+@WebServlet("/SocioController")
 public class SocioController extends HttpServlet {
-	
 	private static final long serialVersionUID = 1L;
 	private static String INSERT_OR_EDIT = "/socio.jsp";
 	private static String LIST = "/listsocio.jsp";
 	private SocioDao dao;
-	
-	public SocioController() {
-		super();
-		dao = new SocioDao();
-	}
-	
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public SocioController() {
+        super();
+        dao = new SocioDao();
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		String forward = "";
 		String action = request.getParameter("action");
 		if (action == null)
@@ -53,28 +61,22 @@ public class SocioController extends HttpServlet {
 		RequestDispatcher view = request.getRequestDispatcher(forward);
 		view.forward(request, response);
 	}
-	
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		Integer id = getId(request);
 		
 		Socio retValue = new Socio();
 		
 		retValue.setId(id);
-		retValue.setNome(request.getParameter("nome"));
-		retValue.setCognome(request.getParameter("cognome"));
-		retValue.setCitta(request.getParameter("citta"));
-		retValue.setProv(request.getParameter("prov"));
-		retValue.setIndirizzo(request.getParameter("indirizzo"));
-		retValue.setTelefono(request.getParameter("telefono"));
-		retValue.setMail(request.getParameter("mail"));
-		retValue.setCodFisc(request.getParameter("codFisc"));
-		retValue.setPsw(request.getParameter("psw"));
-		retValue.setUtente(request.getParameter("utente"));
-		retValue.setRuolo(request.getParameter("ruolo"));
-		retValue.setNascita(Utility.parseDate(request.getParameter("nascita")) );
-		retValue.setSesso(request.getParameter("sesso"));
+		retValue.setTessera(Utility.parseInteger(request.getParameter("tessera")));
+		retValue.setAnnoInizio(Utility.parseInteger(request.getParameter("annoInizio")));
+		retValue.setScadenza(Utility.parseDate(request.getParameter("scadenza")));
+		retValue.setSocietaId(Utility.parseInteger(request.getParameter("societaId")));
+		retValue.setPersonaId(Utility.parseInteger(request.getParameter("personaId")));
 		
 		if (id == null || id == 0) {
 			dao.add(retValue);
@@ -89,5 +91,6 @@ public class SocioController extends HttpServlet {
 	
 	private Integer getId(HttpServletRequest request) {
 		return Utility.getInteger(request.getParameter("id"));
-	}
+	}		
+
 }
