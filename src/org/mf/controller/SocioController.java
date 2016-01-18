@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.mf.dao.PersonaDao;
+import org.mf.dao.SocietaDao;
 import org.mf.dao.SocioDao;
 import org.mf.model.Socio;
 import org.mf.util.Utility;
@@ -45,6 +47,8 @@ public class SocioController extends HttpServlet {
 			Integer id = getId(request);
 			Socio socio = dao.getById(id);
 			forward = INSERT_OR_EDIT;
+			setSocietaList(request);
+			setPersoneList(request);
 			request.setAttribute("bean", socio);
 		} else if (action.equalsIgnoreCase("delete")) {
 			Integer id = getId(request);
@@ -55,13 +59,15 @@ public class SocioController extends HttpServlet {
 			forward = LIST;
 			request.setAttribute("beans", dao.getAll());
 		} else {
+			setSocietaList(request);
+			setPersoneList(request);
 			forward = INSERT_OR_EDIT;
 		}
 
 		RequestDispatcher view = request.getRequestDispatcher(forward);
 		view.forward(request, response);
 	}
-
+	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -91,6 +97,17 @@ public class SocioController extends HttpServlet {
 	
 	private Integer getId(HttpServletRequest request) {
 		return Utility.getInteger(request.getParameter("id"));
-	}		
+	}
+	
+	/**
+	 * mette in request l'elenco di tutte le società
+	 * @param request
+	 */
+	private void setSocietaList(HttpServletRequest request) {
+		request.setAttribute("societaList", new SocietaDao().getAllOrdered());	//tutte le società ordinate secondo l'ordine definito in Societa
+	}
+	private void setPersoneList(HttpServletRequest request) {
+		request.setAttribute("personeList", new PersonaDao().getAllOrdered());	//tutte le persone ordinate secondo l'ordine definito in Persona
+	}
 
 }
