@@ -10,7 +10,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-			<title>Add new societa'</title>
+			<title>Societa'</title>
 </head>
 <body>
 
@@ -33,7 +33,15 @@
 			<div><label for="giorniRitardoAmmesso"><fmt:message key="societa.label.giorniRitardoAmmesso" bundle="${lang}" />:</label> <input type="text" name="giorniRitardoAmmesso" id="giorniRitardoAmmesso" value="<c:out value="${bean.giorniRitardoAmmesso}" />" > </div>
 			<div><label for="site"><fmt:message key="societa.label.site" bundle="${lang}" />:</label> <input type="text" name="site" id="site" value="<c:out value="${bean.site}" />" > </div>
 			<div><label for="mail"><fmt:message key="societa.label.mail" bundle="${lang}" />:</label> <input type="text" name="mail" id="mail" value="<c:out value="${bean.mail}" />" > </div>
-			<div><label for="personaId"><fmt:message key="societa.label.personaId" bundle="${lang}" />:</label> <input type="text" name="personaId" id="personaId" value="<c:out value="${bean.personaId}" />" > </div>
+			<div><label for="personaId"><fmt:message key="societa.label.personaId" bundle="${lang}" />:</label> 
+			
+			<select name="personaId" id="personaId">
+			    <c:forEach var="item" items="${personeList}">
+			        <option value="${item.id}" ${item.id == bean.personaId ? 'selected="selected"' : ''}>${item.nomeCompleto}</option>
+			    </c:forEach>
+			</select>
+	
+			 </div>
 
 			<input type="submit" value="<fmt:message key="submit" bundle="${lang}" />" />
 			

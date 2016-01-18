@@ -10,6 +10,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.TreeSet;
 
+import org.mf.model.Persona;
 import org.mf.model.Societa;
 
 public class SocietaDao extends Dao {
@@ -156,7 +157,13 @@ public class SocietaDao extends Dao {
 		retValue.setGiorniRitardoAmmesso(rs.getInt("giorni_Ritardo_Ammesso"));
 		retValue.setSite(rs.getString("site"));
 		retValue.setMail(rs.getString("mail"));
-		// retValue.setPersona(rs.getString("persona"));
+		retValue.setPersonaId(rs.getInt("persona_Id"));
+		if (rs.getInt("persona_Id") > 0) {
+			PersonaDao pdao = new PersonaDao();
+			Persona custode = pdao.getById(rs.getInt("persona_Id"));
+			retValue.setPersona(custode);
+		} 
+			
 		return retValue;
 	}
 

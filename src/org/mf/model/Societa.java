@@ -12,6 +12,7 @@ public class Societa implements Comparable<Societa> {
 	private String site;
 	private String mail;
 	private Integer personaId;
+	private Persona custode;
 	
 	
 	public Integer getId() {
@@ -74,6 +75,14 @@ public class Societa implements Comparable<Societa> {
 	public void setPersonaId(Integer personaId) {
 		this.personaId = personaId;
 	}
+	
+	public void setPersona(Persona custode) {
+		this.custode = custode;
+	}
+	public Persona getPersona() {
+		return custode;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -169,6 +178,8 @@ public class Societa implements Comparable<Societa> {
 			return r;
 		return id-o.id;
 	}
+	
+
 	
 
 }
