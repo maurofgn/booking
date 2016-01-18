@@ -6,7 +6,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.TreeSet;
 
 import org.mf.model.Persona;
 import org.mf.model.Societa;
@@ -132,6 +134,20 @@ public class PersonaDao extends Dao {
 
 		return retValue;
 	}
+
+	/**
+	 * 
+	 * @return Hashtable<Integer, Persona> tutte le persone 
+	 */
+	public Hashtable<Integer, Persona> getAllHt() {
+		List<Persona> people = getAll();
+		Hashtable<Integer, Persona> retValue = new Hashtable<Integer, Persona>(people.size()); 
+		for (Persona persona : people) 
+			retValue.put(persona.getId(), persona);
+
+		return retValue;
+	}
+
 	
 	/**
 	 * 
@@ -212,6 +228,10 @@ public class PersonaDao extends Dao {
 		retValue.setNascita(rs.getDate("nascita"));
 		retValue.setSesso(rs.getString("sesso"));
 		return retValue;
+	}
+
+	public TreeSet<Persona> getAllOrdered() {
+		return new TreeSet<Persona>(getAll());
 	}
 
 }

@@ -6,8 +6,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
+import org.mf.model.Persona;
+import org.mf.model.Societa;
 import org.mf.model.Socio;
 
 public class SocioDao extends Dao {
@@ -94,12 +97,20 @@ public class SocioDao extends Dao {
 
 	public List<Socio> getAll() {
 		List<Socio> retValue = new ArrayList<Socio>();
+		PersonaDao pdao = new PersonaDao();
+		Hashtable<Integer, Persona> htPeople = pdao.getAllHt();
+		
+		SocietaDao sdao = new SocietaDao();
+		Hashtable<Integer, Societa> htSocieta = sdao.getAllHt();
 
 		try {
 			Statement statement = getConnection().createStatement();
 			ResultSet rs = statement.executeQuery("select * from socio");
 			while (rs.next()) {
-				retValue.add(assignBean(rs));
+				Socio socio = assignBean(rs);
+				socio.setPersona(htPeople.get(socio.getPersonaId()));
+				socio.setSocieta(htSocieta.get(socio.getSocietaId()));
+				retValue.add(socio);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -107,6 +118,17 @@ public class SocioDao extends Dao {
 
 		return retValue;
 	}
+	
+	
+//	private Hashtable<Integer, Persona> getAllHt() {
+//		PersonaDao pdao = new PersonaDao();
+//		List<Persona> people = pdao.getAll();
+//		Hashtable<Integer, Persona> htPeople = new Hashtable<Integer, Persona>(people.size()); 
+//		for (Persona persona : people) 
+//			htPeople.put(persona.getId(), persona);
+//		
+//		return htPeople;
+//	}
 
 	public Socio getById(int id) {
 		return (Socio)super.getById(id);
