@@ -35,6 +35,9 @@ if (session.getAttribute("userId") != null) {
     white-space: nowrap;
     text-align: center;
 }
+
+#locale A { padding:10px 0 1px 0; margin-left: 2px; display:block; float:left; }
+#locale A.current { padding:2px 0 1px 0; }
 </style>
 
 		
@@ -79,6 +82,23 @@ if (session.getAttribute("userId") != null) {
 			</td>
 			
 			<td>
+
+					<div style="float:right; padding-top:20px" id="locale">
+					
+					<a <c:if test="${language == 'en'}">class="current"</c:if><c:if test="${language != 'en'}">href="<%=request.getContextPath()%>/?language=en"</c:if>><img src="<%=request.getContextPath()%>/images/flag_en.gif" border="" alt=""></a>
+					<a <c:if test="${language == 'de'}">class="current"</c:if><c:if test="${language != 'de'}">href="<%=request.getContextPath()%>/?language=de"</c:if>><img src="<%=request.getContextPath()%>/images/flag_de.gif" border="" alt=""></a>
+					<a <c:if test="${language == 'es'}">class="current"</c:if><c:if test="${language != 'es'}">href="<%=request.getContextPath()%>/?language=es"</c:if>><img src="<%=request.getContextPath()%>/images/flag_es.gif" border="" alt=""></a>
+					<a <c:if test="${language == 'it'}">class="current"</c:if><c:if test="${language != 'it'}">href="<%=request.getContextPath()%>/?language=it"</c:if>><img src="<%=request.getContextPath()%>/images/flag_it.gif" border="" alt=""></a>
+					<a <c:if test="${language == 'pt'}">class="current"</c:if><c:if test="${language != 'pt'}">href="<%=request.getContextPath()%>/?language=pt"</c:if>><img src="<%=request.getContextPath()%>/images/flag_pt.gif" border="" alt=""></a>
+					<a <c:if test="${language == 'fr'}">class="current"</c:if><c:if test="${language != 'fr'}">href="<%=request.getContextPath()%>/?language=fr"</c:if>><img src="<%=request.getContextPath()%>/images/flag_fr.gif" border="" alt=""></a>
+					<a <c:if test="${language == 'ru'}">class="current"</c:if><c:if test="${language != 'ru'}">href="<%=request.getContextPath()%>/?language=ru"</c:if>><img src="<%=request.getContextPath()%>/images/flag_ru.gif" border="" alt=""></a>
+					<a <c:if test="${language == 'tr'}">class="current"</c:if><c:if test="${language != 'tr'}">href="<%=request.getContextPath()%>/?language=tr"</c:if>><img src="<%=request.getContextPath()%>/images/flag_tr.gif" border="" alt=""></a>
+					<a <c:if test="${language == 'cn'}">class="current"</c:if><c:if test="${language != 'cn'}">href="<%=request.getContextPath()%>/?language=cn"</c:if>><img src="<%=request.getContextPath()%>/images/flag_cn.gif" border="" alt=""></a>
+
+					</div>
+			</td>
+			
+			<td>
 				<div id="checkout" align="center">
 					<a href="<%=request.getContextPath()%>/LogoutServlet">
 					<img src="<%=request.getContextPath()%>/images/shutdown.png" alt="Uscita"/>
@@ -89,5 +109,3 @@ if (session.getAttribute("userId") != null) {
 			
 		</tr>
 </table>
-
-
