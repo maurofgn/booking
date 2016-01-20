@@ -275,6 +275,7 @@ public class PrenoDao extends Dao {
 		retValue.setCampoId(rs.getInt("campo_id"));
 		retValue.setData(rs.getDate("data"));
 		retValue.setOra(rs.getInt("ora"));
+		retValue.setCreated(rs.getDate("created"));
 		
 		return retValue;
 	}
@@ -317,7 +318,7 @@ public class PrenoDao extends Dao {
 			sb.append("INSERT INTO preno "); 
 			sb.append("(socio_id ,campo_id ,data ,ora) VALUES ");
 			sb.append("(?        ,?        ,?    ,?  ) ");
-			//          1   	  2     	3	  4
+			//          1   	  2     	3	  4	il campo created ha per default la data del sistema
 	
 			try {
 				PreparedStatement stmt = getConnection().prepareStatement(sb.toString());
