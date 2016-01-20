@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -136,6 +137,23 @@ public class PrenoDao extends Dao {
 		if (data == null)
 			data = new Date();
 		
+		GregorianCalendar gc = new GregorianCalendar();
+		gc.set(GregorianCalendar.HOUR_OF_DAY, 0 );
+	    gc.set(GregorianCalendar.MINUTE, 0 );
+	    gc.set(GregorianCalendar.SECOND, 0 );
+	    gc.set(GregorianCalendar.MILLISECOND, 0 );
+		Date oggi = gc.getTime();
+		
+		gc.setTime(data);
+		
+		gc.set(GregorianCalendar.HOUR_OF_DAY, 0 );
+	    gc.set(GregorianCalendar.MINUTE, 0 );
+	    gc.set(GregorianCalendar.SECOND, 0 );
+	    gc.set(GregorianCalendar.MILLISECOND, 0 );
+		Date dataZeroMin = gc.getTime();
+		
+		int oraMin = dataZeroMin.compareTo(oggi) == 0 ? new GregorianCalendar().get(GregorianCalendar.HOUR_OF_DAY) : -1;
+		
 		CampoDao campoDao = new CampoDao();
 		Hashtable<Integer, List<Campo>> campiSoc = campoDao.getAllSocPerSocio(socioId);
 		if (campiSoc == null || campiSoc.isEmpty())
@@ -183,7 +201,7 @@ public class PrenoDao extends Dao {
 				
 				int key = rs.getInt("k") ;
 				if (prenoRow == null || prenoRow.getCampo().getId() != key) {
-					prenoRow = new PrenoRow(socioId, playGrounds.get(key), data, primaOra, ultimaOra);
+					prenoRow = new PrenoRow(socioId, playGrounds.get(key), data, primaOra, ultimaOra, oraMin);
 					retValue.add(prenoRow);
 				}
 				

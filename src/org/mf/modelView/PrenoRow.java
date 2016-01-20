@@ -15,18 +15,20 @@ public class PrenoRow implements Comparable<PrenoRow> {
 	private int primaOra;
 	private int ultimaOra;
 	private PrenoHour[] preno;
+	private int oraMin;
 	
-	public PrenoRow(int personaId, Campo campo, Date data, int primaOra, int ultimaOra) {
+	public PrenoRow(int personaId, Campo campo, Date data, int primaOra, int ultimaOra, int oraMin) {
 		super();
 		this.personaId = personaId;
 		this.campo = campo;
 		this.data = data;
 		this.primaOra = primaOra;
 		this.ultimaOra = ultimaOra;
+		this.oraMin = oraMin;
 		preno = new PrenoHour[ultimaOra >= primaOra ? ultimaOra-primaOra : 0];
 		
 		for (int i = 0; i < preno.length; i++) {
-			preno[i] = new PrenoHour(campo.getStato(i + primaOra), i + primaOra);
+			preno[i] = new PrenoHour(campo.getStato(i + primaOra), i + primaOra, i + primaOra <= oraMin);
 		}
 	}
 	
@@ -53,6 +55,7 @@ public class PrenoRow implements Comparable<PrenoRow> {
 			preno[hh-primaOra].setPersonaId(personaId);
 			preno[hh-primaOra].setStato(this.personaId == personaId ? PrenoState.MiaPreno : PrenoState.Occupato);
 			preno[hh-primaOra].setUtente(utente);
+			preno[hh-primaOra].setPast(hh<=oraMin);	//ora inferiore all'ora minima utilizzabile (nel passato)
 		}
 	}
 
@@ -60,6 +63,10 @@ public class PrenoRow implements Comparable<PrenoRow> {
 		return campo;
 	}
 
+	public int getOraMin() {
+		return oraMin;
+	}
+	
 	public int getPrimaOra() {
 		return primaOra;
 	}

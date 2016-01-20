@@ -6,12 +6,14 @@ public class PrenoHour {
 	private int personaId;
 	private String utente;
 	private int hour;	//ora assoluta (0-23)
+	private boolean past;	//ora nel passato
 	
 	
-	public PrenoHour(PrenoState stato, int hour) {
+	public PrenoHour(PrenoState stato, int hour, boolean past) {
 		super();
 		this.stato = stato;
 		this.hour = hour;
+		this.past = past;
 	}
 
 	public PrenoState getStato() {
@@ -44,6 +46,14 @@ public class PrenoHour {
 
 	public void setUtente(String utente) {
 		this.utente = utente;
+	}
+	
+	public boolean isPast() {
+		return past;
+	}
+
+	public void setPast(boolean past) {
+		this.past = past;
 	}
 
 	@Override

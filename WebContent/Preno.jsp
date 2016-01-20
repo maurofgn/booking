@@ -267,6 +267,7 @@ table.preno td.fondo {
                					value="${prenoHour.stato}"
                					name="${prenoHour.hour}"
                					<c:if test="${prenoHour.getPersonaId() > 0}">checked</c:if>
+               					<c:if test="${prenoHour.past}">disabled</c:if>
                				/>
                			</c:if>
                			<c:if test="${prenoHour.stato == PrenoState.Occupato && ruolo=='A'}">
