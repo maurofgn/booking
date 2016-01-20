@@ -12,6 +12,8 @@ public class Preno {
 	private Integer ora;
 	private Integer campoId;
 	private Integer socioId;
+	private Date created;
+
 	
 	public Preno() {
 	}
@@ -55,6 +57,14 @@ public class Preno {
 		this.socioId = socioId;
 	}
 	
+	public Date getCreated() {
+		return created;
+	}
+
+	public void setCreated(Date created) {
+		this.created = created;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
