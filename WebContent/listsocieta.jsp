@@ -18,6 +18,13 @@
                	<th>Nome</th>
 				<th>Città</th>
 				<th>Provincia</th>
+				<th>Indirizzo</th>
+				<th>Codice Federale</th>
+				<th>Ritardo ammesso (gg)</th>
+				<th>Site</th>
+				<th>e-mail</th>
+				<th>Custode</th>
+
             </tr>
         </thead>
         <tbody>
@@ -33,22 +40,7 @@
 					<td><c:out value="${bean.giorniRitardoAmmesso}" /></td>
 					<td><c:out value="${bean.site}" /></td>
 					<td><c:out value="${bean.mail}" /></td>
-					<td><c:out value="${bean.personaId}" /></td>
-<%-- 					
-					<td><c:out value="${bean.prov}" /></td>
-					<td><c:out value="${bean.indirizzo}" /></td>
-					<td><c:out value="${bean.telefono}" /></td>
-					<td><c:out value="${bean.mail}" /></td>
-					<td><c:out value="${bean.codFisc}" /></td>
-					<td><c:out value="${bean.psw}" /></td>
-					<td><c:out value="${bean.utente}" /></td>
-					<td><c:out value="${bean.ruolo}" /></td>
-					<td><fmt:formatDate pattern="dd MMM,yyyy" value="${bean.nascita}" /></td>
-					<td><c:out value="${bean.sesso}" /></td>
-					 --%>
-					
-<%--                     <td><a href="PersonaController?action=edit&id=<c:out value="${bean.id}"/>">Update</a></td> --%>
-<%--                     <td><a href="PersonaController?action=delete&id=<c:out value="${bean.id}"/>">Delete</a></td> --%>
+					<td><c:out value="${bean.persona.nomeCompleto}" /></td>
                 </tr>
             </c:forEach>
         </tbody>
