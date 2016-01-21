@@ -1,9 +1,17 @@
 package org.mf.util;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Formatter;
 import java.util.GregorianCalendar;
 import java.util.Random;
 
@@ -667,7 +675,63 @@ public class Utility {
 		}
 		
 		return meseAlfa;
-		
+	}
+	
+	/**
+	 * 
+	 * @param file
+	 * @return hash sha1 del file passato
+	 */
+	public String sha1(final File file)  {
+		MessageDigest messageDigest = getMessageDigest("SHA1");
+
+		try (InputStream is = new BufferedInputStream(new FileInputStream(file))) {
+			final byte[] buffer = new byte[1024];
+			for (int read = 0; (read = is.read(buffer)) != -1;) {
+				messageDigest.update(buffer, 0, read);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return formatta(messageDigest.digest());
+
+	}
+	
+	/**
+	 * 
+	 * @param s
+	 * @return hash sha1 della stringa passata
+	 */
+	public String sha1(String s) {
+		MessageDigest messageDigest = getMessageDigest("SHA1");
+		messageDigest.update(s.getBytes());
+		return formatta(messageDigest.digest());
+	}
+	
+	private MessageDigest getMessageDigest(String type) {
+		MessageDigest messageDigest = null;
+		try {
+			messageDigest = MessageDigest.getInstance(type);
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		return messageDigest;
+	}
+	
+	// Convert the byte to hex format
+	private String formatta(byte[] bytes) {
+
+		String retValue = null;
+		try (Formatter formatter = new Formatter()) {
+			for (final byte b : bytes) {
+				formatter.format("%02x", b);
+			}
+			retValue = formatter.toString();
+		}
+
+		return retValue;
+
 	}
 	
 	
