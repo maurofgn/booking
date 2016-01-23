@@ -132,7 +132,7 @@ public class PrenoDao extends Dao {
 	 * @return List<PrenoRow> della data e per i campi a cui ha accesso il socio
 	 * 
 	 */
-	public List<PrenoRow> getAll(Date data, int socioId) {
+	public List<PrenoRow> getAll(Date data, int personaId) {
 		List<PrenoRow> retValue = new ArrayList<PrenoRow>();
 		if (data == null)
 			data = new Date();
@@ -155,7 +155,7 @@ public class PrenoDao extends Dao {
 		int oraMin = dataZeroMin.compareTo(oggi) == 0 ? new GregorianCalendar().get(GregorianCalendar.HOUR_OF_DAY) : -1;
 		
 		CampoDao campoDao = new CampoDao();
-		Hashtable<Integer, List<Campo>> campiSoc = campoDao.getAllSocPerSocio(socioId);
+		Hashtable<Integer, List<Campo>> campiSoc = campoDao.getAllSocPerPersona(personaId);
 		if (campiSoc == null || campiSoc.isEmpty())
 			return retValue;
 		
@@ -201,7 +201,7 @@ public class PrenoDao extends Dao {
 				
 				int key = rs.getInt("k") ;
 				if (prenoRow == null || prenoRow.getCampo().getId() != key) {
-					prenoRow = new PrenoRow(socioId, playGrounds.get(key), data, primaOra, ultimaOra, oraMin);
+					prenoRow = new PrenoRow(personaId, playGrounds.get(key), data, primaOra, ultimaOra, oraMin);
 					retValue.add(prenoRow);
 				}
 				

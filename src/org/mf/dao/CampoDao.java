@@ -154,7 +154,7 @@ public class CampoDao extends Dao {
 	 * @param socioId
 	 * @return Hashtable<Societa_ID, List<Campo>>
 	 */
-	public Hashtable<Integer, List<Campo>> getAllSocPerSocio(int socioId) {
+	public Hashtable<Integer, List<Campo>> getAllSocPerPersona(int personaId) {
 		
 		StringBuffer sb = new StringBuffer();
 		sb.append("select "); 
@@ -170,7 +170,7 @@ public class CampoDao extends Dao {
 		PreparedStatement stmt = null;
 		try {
 			stmt = getConnection().prepareStatement(sb.toString());
-			stmt.setInt(1, socioId);
+			stmt.setInt(1, personaId);
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
 				
