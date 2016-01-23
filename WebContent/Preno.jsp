@@ -20,6 +20,7 @@ $(function() {
 	
     $("#dataPreno").datepicker({ dateFormat: 'dd/mm/yy', minDate: 'today', maxDate: 'today+10d' });
     
+    //sull'evento submit della for con id frmPrenoSend esegui la funzione
     $("#frmPrenoSend").submit(function (e) {
     	allcheck();
     });
@@ -253,7 +254,7 @@ table.preno td.fondo {
             <c:forEach items="${beans}" var="prenoRow">
                 <tr>
                 	<td class="campo"><c:out value="${prenoRow.campo.nome}"/></td>
-                	<td class="fondo"><fmt:message key="${prenoRow.campo.tipo.keyProperty}" bundle="${lang}"/></td>
+                	<td class="fondo"><fmt:message key="${prenoRow.campo.tipo.getKeyProperty()}" bundle="${lang}"/></td>
                 	<c:forEach items="${prenoRow.getPreno()}" var="prenoHour" varStatus="loop">
                			<td class="${prenoHour.stato}">
                			<c:if test="${(prenoHour.stato == PrenoState.Libero) || (prenoHour.stato == PrenoState.MiaPreno)}">
