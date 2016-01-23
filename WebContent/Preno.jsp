@@ -258,7 +258,7 @@ table.preno td.fondo {
                 	<c:forEach items="${prenoRow.getPreno()}" var="prenoHour" varStatus="loop">
                			<td class="${prenoHour.stato}">
                			<c:if test="${(prenoHour.stato == PrenoState.Libero) || (prenoHour.stato == PrenoState.MiaPreno)}">
-               				<input 
+               				<input
                					class = <c:choose>
 				    					 <c:when test="${prenoHour.getPersonaId() > 0}">"oneHourMinus"</c:when>    
 				    					 <c:otherwise>"oneHourPlus"</c:otherwise>
