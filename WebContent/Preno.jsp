@@ -7,8 +7,6 @@
 <fmt:setLocale value="${language}"/>
 <fmt:setBundle basename="org.mf.i18n.Message" var="lang"/>
 
-<%-- <%@ page import="org.mf.modelView.PrenoState" %> --%>
-
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -21,14 +19,8 @@ $(function() {
     $("#dataPreno").datepicker({ dateFormat: 'dd/mm/yy', minDate: 'today', maxDate: 'today+10d' });
     
     //sull'evento submit della for con id frmPrenoSend esegui la funzione
-    $("#frmPrenoSend").submit(function (e) {
-    	allcheck();
-    });
+    $("#frmPrenoSend").submit(function (e) { allcheck(); });
     
-//     $('#test').click(function() {
-//     	allcheck();
-// 	});
-        
     /* Scorre la tabella tablePreno e per tutti i checkbox estrae le variazioni */
     function allcheck() {
     	var allHours = {"data":"", "hours":[]};
@@ -37,13 +29,8 @@ $(function() {
     	$("#tablePreno :input").each(function () {
  		    if (this.type.toLowerCase() == 'checkbox') {
    		    	if (! (
-   		    			
-   		    			
    	   		    		(this.value == 'MiaPreno' && this.checked == true ) ||
    	   		    		(this.value == 'Libero' && this.checked == false )
-   		    			
-//    	   		    		(this.value == '${PrenoState.MiaPreno}' && this.checked == true ) ||
-//    	   		    		(this.value == '${PrenoState.Libero}' && this.checked == false )
    		    		)) 
   		    	{
    		            var res = this.id.split(",");
@@ -57,22 +44,8 @@ $(function() {
 		    }
 		});
      	
-//     	alert(JSON.stringify(allHours));
     	$('#matrix').val(JSON.stringify(allHours));
     }
-    
-/*
-	$('.oneHourMinus').on('change', function() {
-    	var $checkbox = $(this); 
-		alert("Sprenota "  +  $checkbox.is(':checked') + " ora:" + $checkbox.prop('value') + " campo:" + $checkbox.prop('name'));
-    }); 
-    
-     $('.oneHourPlus').on('change', function() {
-    	var $checkbox = $(this);
-		alert("Prenota " +  $checkbox.is(':checked') + " ora:" + $checkbox.prop('value') + " campo" + $checkbox.prop('name'));
-     }); 
-*/
-    
   });
 
 </script>
@@ -262,7 +235,6 @@ table.preno td.fondo {
                 	<td class="fondo"><fmt:message key="${prenoRow.campo.tipo.getKeyProperty()}" bundle="${lang}"/></td>
                 	<c:forEach items="${prenoRow.getPreno()}" var="prenoHour" varStatus="loop">
                			<td class="${prenoHour.statoString}">
-<%--                			<c:if test="${(prenoHour.stato == PrenoState.Libero) || (prenoHour.stato == PrenoState.MiaPreno)}"> --%>
                			<c:if test="${prenoHour.isCheck() == true }">
                				<input
                					class = <c:choose>
@@ -277,9 +249,6 @@ table.preno td.fondo {
                					<c:if test="${prenoHour.past}">disabled</c:if>
                				/>
                			</c:if>
-<%--                			<c:if test="${prenoHour.stato == PrenoState.Occupato && ruolo=='A'}"> --%>
-<%--                				<div><input type="hidden" name="utente" value="<c:out value="${prenoHour.utente}"/>" > </div> --%>
-<%--                			</c:if> --%>
                			</td>
                		</c:forEach>
                 </tr>
