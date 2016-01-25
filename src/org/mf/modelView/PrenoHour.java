@@ -19,6 +19,14 @@ public class PrenoHour {
 	public PrenoState getStato() {
 		return stato;
 	}
+	
+	public String getStatoString() {
+		return stato.toString();
+	}
+	
+	public boolean isCheck() {
+		return stato == PrenoState.Libero || stato == PrenoState.MiaPreno;
+	}
 
 	public void setStato(PrenoState stato) {
 		this.stato = stato;

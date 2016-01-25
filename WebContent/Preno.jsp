@@ -7,7 +7,7 @@
 <fmt:setLocale value="${language}"/>
 <fmt:setBundle basename="org.mf.i18n.Message" var="lang"/>
 
-<%@ page import="org.mf.modelView.PrenoState" %>
+<%-- <%@ page import="org.mf.modelView.PrenoState" %> --%>
 
 <html>
     <head>
@@ -37,8 +37,13 @@ $(function() {
     	$("#tablePreno :input").each(function () {
  		    if (this.type.toLowerCase() == 'checkbox') {
    		    	if (! (
-   		    		(this.value == '${PrenoState.MiaPreno}' && this.checked == true ) ||
-   		    		(this.value == '${PrenoState.Libero}' && this.checked == false )
+   		    			
+   		    			
+   	   		    		(this.value == 'MiaPreno' && this.checked == true ) ||
+   	   		    		(this.value == 'Libero' && this.checked == false )
+   		    			
+//    	   		    		(this.value == '${PrenoState.MiaPreno}' && this.checked == true ) ||
+//    	   		    		(this.value == '${PrenoState.Libero}' && this.checked == false )
    		    		)) 
   		    	{
    		            var res = this.id.split(",");
@@ -256,8 +261,9 @@ table.preno td.fondo {
                 	<td class="campo"><c:out value="${prenoRow.campo.nome}"/></td>
                 	<td class="fondo"><fmt:message key="${prenoRow.campo.tipo.getKeyProperty()}" bundle="${lang}"/></td>
                 	<c:forEach items="${prenoRow.getPreno()}" var="prenoHour" varStatus="loop">
-               			<td class="${prenoHour.stato}">
-               			<c:if test="${(prenoHour.stato == PrenoState.Libero) || (prenoHour.stato == PrenoState.MiaPreno)}">
+               			<td class="${prenoHour.statoString}">
+<%--                			<c:if test="${(prenoHour.stato == PrenoState.Libero) || (prenoHour.stato == PrenoState.MiaPreno)}"> --%>
+               			<c:if test="${prenoHour.isCheck() == true }">
                				<input
                					class = <c:choose>
 				    					 <c:when test="${prenoHour.getPersonaId() > 0}">"oneHourMinus"</c:when>    
@@ -265,15 +271,15 @@ table.preno td.fondo {
 									    </c:choose>
                					type="checkbox" 
                					id="${prenoRow.campo.id},${loop.index}" 
-               					value="${prenoHour.stato}"
+               					value="${prenoHour.statoString}"
                					name="${prenoHour.hour}"
                					<c:if test="${prenoHour.getPersonaId() > 0}">checked</c:if>
                					<c:if test="${prenoHour.past}">disabled</c:if>
                				/>
                			</c:if>
-               			<c:if test="${prenoHour.stato == PrenoState.Occupato && ruolo=='A'}">
-               				<div><input type="hidden" name="utente" value="<c:out value="${prenoHour.utente}"/>" > </div>
-               			</c:if>
+<%--                			<c:if test="${prenoHour.stato == PrenoState.Occupato && ruolo=='A'}"> --%>
+<%--                				<div><input type="hidden" name="utente" value="<c:out value="${prenoHour.utente}"/>" > </div> --%>
+<%--                			</c:if> --%>
                			</td>
                		</c:forEach>
                 </tr>
