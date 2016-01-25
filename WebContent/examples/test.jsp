@@ -112,6 +112,14 @@ while ( fontSize <= 3){ %>
 <%fontSize++;%>
 <%}%>
 
+
+Server info: <%= application.getServerInfo() %><br>
+<font color="red" size="8">
+Servlet version: <%= application.getMajorVersion() %>.<%= application.getMinorVersion() %>
+</font><br />
+JSP version: <%= JspFactory.getDefaultFactory().getEngineInfo().getSpecificationVersion() %><br>
+Java version: <%= System.getProperty("java.version") %><br>
+
 </body>
 </html>
 
