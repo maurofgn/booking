@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
 <%
 Integer userId = 0;
@@ -8,7 +9,6 @@ if (session.getAttribute("userId") != null) {
 	nome = (String) session.getAttribute("nome");
 	}
 %>
-
 
 <style type="text/css">
   table.header {
@@ -40,6 +40,9 @@ if (session.getAttribute("userId") != null) {
 #locale A.current { padding:2px 0 1px 0; }
 </style>
 
+<c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="page"/>
+<fmt:setLocale value="${language}"/>
+<fmt:setBundle basename="org.mf.i18n.Message" var="lang"/>
 		
 <table class="header">
 		<tr>
@@ -64,7 +67,7 @@ if (session.getAttribute("userId") != null) {
 				      <li><a href="<%=request.getContextPath()%>/PersonaController">Persone</a></li>
 				      <li><a href="<%=request.getContextPath()%>/SocioController">Socio</a></li>
 				      <li><a href="<%=request.getContextPath()%>/SocietaController">Società</a></li>
-				      <li><a href="<%=request.getContextPath()%>/index.jsp">First Page</a></li>
+				      <li><a href="<%=request.getContextPath()%>/PrenoController">Prenotazioni</a></li>
 				      <li><a href="<%=request.getContextPath()%>/help/Home.html" target="_blank">Help</a></li>
 				    </ul>
 				  </div>
@@ -74,7 +77,7 @@ if (session.getAttribute("userId") != null) {
 
 			<td>
 				<div id="wellcome" align="right">
-					Utente: 
+					<fmt:message key="login.label.username" bundle="${lang}"/>:
 					<a href="<%=request.getContextPath()%>/PersonaController?action=edit&id=<%=userId %>">
 						<%=nome%>
 					</a>
@@ -85,15 +88,15 @@ if (session.getAttribute("userId") != null) {
 
 					<div style="float:right; padding-top:20px" id="locale">
 					
-					<a <c:if test="${language == 'en'}">class="current"</c:if><c:if test="${language != 'en'}">href="<%=request.getContextPath()%>/?language=en"</c:if>><img src="<%=request.getContextPath()%>/images/flag_en.gif" border="" alt=""></a>
-					<a <c:if test="${language == 'de'}">class="current"</c:if><c:if test="${language != 'de'}">href="<%=request.getContextPath()%>/?language=de"</c:if>><img src="<%=request.getContextPath()%>/images/flag_de.gif" border="" alt=""></a>
-					<a <c:if test="${language == 'es'}">class="current"</c:if><c:if test="${language != 'es'}">href="<%=request.getContextPath()%>/?language=es"</c:if>><img src="<%=request.getContextPath()%>/images/flag_es.gif" border="" alt=""></a>
-					<a <c:if test="${language == 'it'}">class="current"</c:if><c:if test="${language != 'it'}">href="<%=request.getContextPath()%>/?language=it"</c:if>><img src="<%=request.getContextPath()%>/images/flag_it.gif" border="" alt=""></a>
-					<a <c:if test="${language == 'pt'}">class="current"</c:if><c:if test="${language != 'pt'}">href="<%=request.getContextPath()%>/?language=pt"</c:if>><img src="<%=request.getContextPath()%>/images/flag_pt.gif" border="" alt=""></a>
-					<a <c:if test="${language == 'fr'}">class="current"</c:if><c:if test="${language != 'fr'}">href="<%=request.getContextPath()%>/?language=fr"</c:if>><img src="<%=request.getContextPath()%>/images/flag_fr.gif" border="" alt=""></a>
-					<a <c:if test="${language == 'ru'}">class="current"</c:if><c:if test="${language != 'ru'}">href="<%=request.getContextPath()%>/?language=ru"</c:if>><img src="<%=request.getContextPath()%>/images/flag_ru.gif" border="" alt=""></a>
-					<a <c:if test="${language == 'tr'}">class="current"</c:if><c:if test="${language != 'tr'}">href="<%=request.getContextPath()%>/?language=tr"</c:if>><img src="<%=request.getContextPath()%>/images/flag_tr.gif" border="" alt=""></a>
-					<a <c:if test="${language == 'cn'}">class="current"</c:if><c:if test="${language != 'cn'}">href="<%=request.getContextPath()%>/?language=cn"</c:if>><img src="<%=request.getContextPath()%>/images/flag_cn.gif" border="" alt=""></a>
+					<a <c:if test="${language == 'it_IT'}">class="current"</c:if><c:if test="${language != 'it_IT'}">href="<%=request.getContextPath()%>/?language=it_IT"</c:if>><img src="<%=request.getContextPath()%>/images/flag_it.gif" border="" alt=""></a>
+					<a <c:if test="${language == 'en_US'}">class="current"</c:if><c:if test="${language != 'en_US'}">href="<%=request.getContextPath()%>/?language=en_US"</c:if>><img src="<%=request.getContextPath()%>/images/flag_en.gif" border="" alt=""></a>
+					<a <c:if test="${language == 'es_ES'}">class="current"</c:if><c:if test="${language != 'es_ES'}">href="<%=request.getContextPath()%>/?language=es_ES"</c:if>><img src="<%=request.getContextPath()%>/images/flag_es.gif" border="" alt=""></a>
+					<a <c:if test="${language == 'de_DE'}">class="current"</c:if><c:if test="${language != 'de_DE'}">href="<%=request.getContextPath()%>/?language=de_DE"</c:if>><img src="<%=request.getContextPath()%>/images/flag_de.gif" border="" alt=""></a>
+					<a <c:if test="${language == 'fr_FR'}">class="current"</c:if><c:if test="${language != 'fr_FR'}">href="<%=request.getContextPath()%>/?language=fr_FR"</c:if>><img src="<%=request.getContextPath()%>/images/flag_fr.gif" border="" alt=""></a>
+<%-- 					<a <c:if test="${language == 'pt'}">class="current"</c:if><c:if test="${language != 'pt'}">href="<%=request.getContextPath()%>/?language=pt"</c:if>><img src="<%=request.getContextPath()%>/images/flag_pt.gif" border="" alt=""></a> --%>
+<%-- 					<a <c:if test="${language == 'ru'}">class="current"</c:if><c:if test="${language != 'ru'}">href="<%=request.getContextPath()%>/?language=ru"</c:if>><img src="<%=request.getContextPath()%>/images/flag_ru.gif" border="" alt=""></a> --%>
+<%-- 					<a <c:if test="${language == 'tr'}">class="current"</c:if><c:if test="${language != 'tr'}">href="<%=request.getContextPath()%>/?language=tr"</c:if>><img src="<%=request.getContextPath()%>/images/flag_tr.gif" border="" alt=""></a> --%>
+<%-- 					<a <c:if test="${language == 'cn'}">class="current"</c:if><c:if test="${language != 'cn'}">href="<%=request.getContextPath()%>/?language=cn"</c:if>><img src="<%=request.getContextPath()%>/images/flag_cn.gif" border="" alt=""></a> --%>
 
 					</div>
 			</td>
