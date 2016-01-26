@@ -103,9 +103,18 @@ public class SocioDao extends Dao {
 		SocietaDao sdao = new SocietaDao();
 		Hashtable<Integer, Societa> htSocieta = sdao.getAllHt();
 
+		StringBuffer sb = new StringBuffer();
+		sb.append("select "); 
+		sb.append("s.* "); 
+		sb.append("from socio s "); 
+		sb.append("inner join persona p on p.id = s.persona_ID "); 
+		sb.append("order by p.nome, p.cognome, s.persona_ID ");
+
+
 		try {
 			Statement statement = getConnection().createStatement();
-			ResultSet rs = statement.executeQuery("select * from socio");
+			
+			ResultSet rs = statement.executeQuery(sb.toString());
 			while (rs.next()) {
 				Socio socio = assignBean(rs);
 				socio.setPersona(htPeople.get(socio.getPersonaId()));
