@@ -5,7 +5,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
+<c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale.language}" scope="session" />
 <fmt:setLocale value="${language}" />
 <fmt:setBundle basename="booking.i18n.Message" var="lang" />
 
@@ -16,6 +16,30 @@
 <title>i18n</title>
 </head>
 <body>
+
+Formattazione delle date in base al locale
+=================<br/>
+
+<jsp:useBean id="dt" class="java.util.Date" />
+
+<fmt:setLocale value="en_US" />
+In English (US): <fmt:formatDate value="${dt}" type="date" var="now" /> ${now}<br/>
+
+<fmt:setLocale value="en_UK" />
+In English (UK): <fmt:formatDate value="${dt}" type="date" var="now" />${now}<br/>
+
+<fmt:setLocale value="it" />
+In Italian: <fmt:formatDate value="${dt}" type="date" var="now" />${now}<br/>
+
+<fmt:setLocale value="en" />
+In English: <fmt:formatDate value="${dt}" type="date" var="now" />${now}<br/>
+
+<fmt:setLocale value="fr" />
+In French: <fmt:formatDate value="${dt}" type="date" var="now" />${now}<br/>
+
+=================
+
+
         <form>
             <select id="language" name="language" onchange="submit()">
                 <option value="it" ${language == 'it' ? 'selected' : ''}>Italiano</option>
