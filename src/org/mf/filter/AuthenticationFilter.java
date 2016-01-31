@@ -36,7 +36,12 @@ public class AuthenticationFilter implements Filter {
 
 		HttpSession session = req.getSession(false);	//false ==> se non esiste non la crea
 		
-		if ((session != null && session.getAttribute("userId") != null) || uri.endsWith("html") || uri.endsWith("login.jsp") || uri.endsWith("LoginServlet")) {
+		if ((session != null && session.getAttribute("userId") != null)
+				|| uri.endsWith("html") 
+				|| uri.endsWith("login.jsp")
+				|| uri.endsWith("LoginServlet")
+				|| uri.endsWith("logo.png")
+				) {
 			// pass the request along the filter chain
 			chain.doFilter(request, response);
 		}
