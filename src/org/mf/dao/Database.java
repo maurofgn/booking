@@ -1,4 +1,4 @@
-package org.mf.util;
+package org.mf.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

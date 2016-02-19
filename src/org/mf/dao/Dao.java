@@ -6,8 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 
-import org.mf.util.Database;
-
 public abstract class Dao {
 
 	private Connection connection;
